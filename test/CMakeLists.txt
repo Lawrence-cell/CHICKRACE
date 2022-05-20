@@ -1,0 +1,18 @@
+aux_source_directory(. TEST_DIR)
+aux_source_directory(network TEST_DIR)
+aux_source_directory(game TEST_DIR)
+aux_source_directory(../src/common TEST_DIR)
+aux_source_directory(../src/game TEST_DIR)
+aux_source_directory(../src/network TEST_DIR)
+aux_source_directory(../src/ui TEST_DIR)
+
+add_executable(uno_test ${TEST_DIR})
+target_link_libraries(uno_test PRIVATE asio)
+target_link_libraries(uno_test PRIVATE cxxopts)
+target_link_libraries(uno_test PRIVATE gtest)
+target_link_libraries(uno_test PRIVATE gmock)
+target_link_libraries(uno_test PRIVATE yaml-cpp)
+
+if(ENABLE_LOG)
+    target_link_libraries(uno_test PRIVATE spdlog::spdlog)
+endif()
