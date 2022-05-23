@@ -57,7 +57,7 @@ void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool i
             DrawBorderAndUsername(row, col, width, height - 2, usernames[absoluteIndex]);
         }
         if (playerIndex == 0) {
-            AlignCenter(row + 3, col, width, "Waiting for players to join...");
+            AlignCenter(row + 3, col, width, "Waiting for players to join game...");
         }
         else {
             Copy(row + 3, col + 2, CARDS_REMAINED_STR);

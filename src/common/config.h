@@ -14,6 +14,7 @@ namespace UNO { namespace Common {
  */
 struct GameConfigInfo {
     bool mIsServer;
+    bool test_mode;
     std::string mHost;
     std::string mPort;
     std::string mUsername;
@@ -95,7 +96,11 @@ private:
     const static std::string CMD_OPT_SHORT_HELP;
     const static std::string CMD_OPT_LONG_HELP;
     const static std::string CMD_OPT_BOTH_HELP;
-
+//0.0/////////////////////////////////////////////////////
+    const static std::string CMD_OPT_SHORT_TEST;
+    const static std::string CMD_OPT_LONG_TEST;
+    const static std::string CMD_OPT_BOTH_TEST;
+    /// ///////////////////////////////////////////////////
     const static std::string FILE_OPT_SERVER;
     const static std::string FILE_OPT_CLIENT;
     const static std::string FILE_OPT_LISTEN;

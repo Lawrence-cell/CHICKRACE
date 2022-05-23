@@ -45,6 +45,11 @@ const std::string Config::CMD_OPT_BOTH_VERSION = CMD_OPT_SHORT_VERSION + ", " + 
 const std::string Config::CMD_OPT_SHORT_HELP = "h";
 const std::string Config::CMD_OPT_LONG_HELP = "help";
 const std::string Config::CMD_OPT_BOTH_HELP = CMD_OPT_SHORT_HELP + ", " + CMD_OPT_LONG_HELP;
+//0.0/////////////////////////////////////////////////////////
+const std::string Config::CMD_OPT_SHORT_TEST = "t";
+const std::string Config::CMD_OPT_LONG_TEST = "test";
+const std::string Config::CMD_OPT_BOTH_TEST = CMD_OPT_SHORT_TEST + ", " + CMD_OPT_LONG_TEST;
+/// ///////////////////////////////////////////////////////////
 const std::string Config::FILE_OPT_SERVER = "server";
 const std::string Config::FILE_OPT_CLIENT = "client";
 const std::string Config::FILE_OPT_LISTEN = "listenOn";
@@ -67,7 +72,8 @@ Config::Config(int argc, const char **argv)
         (CMD_OPT_BOTH_CFGFILE, "the path of config file", cxxopts::value<std::string>())
         (CMD_OPT_LONG_LOGFILE, "the path of log file", cxxopts::value<std::string>())
         (CMD_OPT_BOTH_VERSION, "show version of application", cxxopts::value<bool>())
-        (CMD_OPT_BOTH_HELP, "show help info", cxxopts::value<bool>());
+        (CMD_OPT_BOTH_HELP, "show help info", cxxopts::value<bool>())
+        (CMD_OPT_BOTH_TEST, "start test version", cxxopts::value<bool>());
     
     try {
         mCmdlineOpts = std::make_unique<cxxopts::ParseResult>(mOptions->parse(argc, argv));
@@ -118,7 +124,7 @@ void Config::HandleImmediateConfig()
         std::exit(0);
     }
     if (mCmdlineOpts->count(CMD_OPT_LONG_VERSION)) {
-        std::cout << "uno version 1.0" << std::endl;
+        std::cout << "uno test version 1.0" << std::endl;
         std::exit(0);
     }
 }
@@ -197,6 +203,10 @@ void Config::ParseCmdlineOpts()
     // --log
     if (mCmdlineOpts->count(CMD_OPT_LONG_LOGFILE)) {
         mGameConfigInfo->mLogPath = (*mCmdlineOpts)[CMD_OPT_LONG_LOGFILE].as<std::string>();
+    }
+    //--test
+    if (mCmdlineOpts->count(CMD_OPT_LONG_TEST)) {
+        mGameConfigInfo->test_mode = true;
     }
 }
 
