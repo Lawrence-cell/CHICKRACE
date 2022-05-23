@@ -88,7 +88,7 @@ namespace UNO
             // for tests
             // const std::unique_ptr<Network::IServer> &GetServer() const { return mServer; }
 
-            const std::unique_ptr<DiscardPile> &GetDiscardPile() const { return mDiscardPile; }
+            // const std::unique_ptr<DiscardPile> &GetDiscardPile() const { return mDiscardPile; }
 
             const std::unique_ptr<Deck> &GetDeck() const { return mDeck; }
 
@@ -100,7 +100,7 @@ namespace UNO
             std::shared_ptr<Network::IServer> mServer;
 
             // state of game board
-            std::unique_ptr<DiscardPile> mDiscardPile;
+            // std::unique_ptr<DiscardPile> mDiscardPile;
             std::unique_ptr<Deck> mDeck;
             std::unique_ptr<GameStat> mGameStat;
 
