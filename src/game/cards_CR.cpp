@@ -164,9 +164,10 @@ namespace CHICKRACE{
             default:
                 assert(0);
             }
+            return color.append(text);
         }
 
-        void CardPile::swapSet(CardPile &cardpile,int i,int j){
+        void CardPair::swapSet(CardPair &cardpile,int i,int j){
             Card temp;
             auto iterThis=this->mPile.begin();
             auto iterThat=cardpile.mPile.begin();
@@ -184,6 +185,56 @@ namespace CHICKRACE{
             this->mPile.emplace(*iterThat);
             cardpile.mPile.erase(iterThat);
             cardpile.mPile.emplace(temp);
+        }
+
+        CardPair::CardPair(const std::set<Card> &cards){
+            auto iterThat=cards.begin();
+            for(int i=0;i<3;i++){
+                mPile.emplace(*iterThat);
+                iterThat++;
+
+            }
+        }
+
+        Cardset CardPair::cardForm()const{
+            auto iterfirst=mPile.begin();
+            auto iterSecond=mPile.begin()++;
+            auto iterThird=mPile.end();
+            //取出内容和颜色
+            int text1=(int)((*iterfirst).mText);
+            int text2=(int)((*iterSecond).mText);
+            int text3=(int)((*iterThird).mText);
+            CardColor color1=(*iterfirst).mColor;
+            CardColor color2=(*iterSecond).mColor;
+            CardColor color3=(*iterThird).mColor;
+
+
+            //判断豹子
+            if((text1==text2)&&(text2==text3)){
+                return Cardset::LEOPARD;
+            }
+            //判断同花顺和清一色
+            if((color1==color2)&&(color2==color3)){
+                if((text1==text2-1)&&(text2==text3-1)){
+                    return Cardset::STRAIGHT_FLUSH;
+                }
+                else{
+                    return Cardset::SUITED;
+                }
+            }
+
+            //判断顺子
+            if((text1==text2-1)&&(text2==text3-1)){
+                return Cardset::STRAIGHT_FLUSH;
+            }
+
+            //判断对子
+            if((text1==text2)||(text2==text3)||(text1==text3)){
+                return Cardset::PAIRS;
+            }
+
+            return Cardset::ORDINARY;
+            
         }
     }
 }
