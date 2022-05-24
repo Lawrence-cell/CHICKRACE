@@ -62,7 +62,7 @@ namespace UNO
         /**
          * Some special sets of \c CardColor or \c CardText.
          */
-        struct CardSet
+        struct CardSet //没写
         {
             const static std::set<CardColor> NonWildColors;
             const static std::set<CardText> NonWildTexts;
@@ -84,7 +84,7 @@ namespace UNO
              *   \param isUno: whether the card to play is the last (final) one in the player's handcard
              *   \return whether the card can played after the last played one
              */
-            bool CanBePlayedAfter(Card lastPlayedCard, bool isUno = false);
+            bool CanBePlayedAfter(Card lastPlayedCard, bool isUno = false);//没弄
 
             /**
              * Get the string format of a card, like 'W', 'R6', 'B+2'.
@@ -94,7 +94,7 @@ namespace UNO
             /**
              * Get the length of the string format of the card, which can be 1, 2, or 3.
              */
-            int Length() const;
+            int Length() const;//没弄
 
             static CardColor FromChar(char c);
 

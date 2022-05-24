@@ -18,15 +18,16 @@ namespace CHICKRACE{
     namespace game{
         enum class CardColor : uint8_t
         {
-            B,//黑桃
-            R,//红心
-            F,//梅花
-            S//方块
+            
+            S,//方块  
+            F,//梅花 
+            R,//红心 
+            B//黑桃 
         };
         std::ostream &operator<<(std::ostream &os, const CardColor &color);
         enum class CardText : uint8_t
         {
-            ONE,
+            ONE=14,//A是最大的
             TWO,
             THREE,
             FOUR,
@@ -40,6 +41,7 @@ namespace CHICKRACE{
             QUEEN,
             KING
         };
+        
 
         struct Card{
             CardColor mColor;
@@ -57,26 +59,48 @@ namespace CHICKRACE{
              */
             static CardColor FromChar(char c);
             friend std::ostream &operator<<(std::ostream &os, const CardColor &color);
-        }
+            
+            //重载关系运算符用以实现手牌的自动排序
+             bool operator<(const Card &rhs) const{
+                if (mText<rhs.mText){
+                    return true;
+                }
+                else if (mText == rhs.mText){
+                    return (mColor < rhs.mColor);
+                }
+                else{
+                    return false;
+                }
+                
+            }
+
+        
+
+            
+        };
         /* 
         牌组的排序规则为，先比数字后比花色
          */
-        class cmp{
+        struct cmp{
         public:
             bool operator()(const Card &s1,const Card &s2){
-                if(s1.mText)
+                return (s1<s2);
             }
 
         };
-        class FirstPile{
+        class CardPile{
         public:
+        /* 
+        把本Cardpile中的第i张与传入Cardpile中的第j张牌交换，限定条件由UI部分给出
+         */
+        void swapSet(CardPile &cardpile,int i,int j);
 
 
 
 
         private:
 
-            std::set<Card,cmp> mCards;
+            std::set<Card,cmp> mPile;
         };
 
     }

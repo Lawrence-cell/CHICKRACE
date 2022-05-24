@@ -2,6 +2,9 @@
 
 namespace CHICKRACE{
     namespace game{
+        /* 
+        重载输出函数，可能用于UI的界面输出
+         */
         std::ostream &operator<<(std::ostream &os, const CardColor &color)
         {
             std::string colorStr;
@@ -95,6 +98,7 @@ namespace CHICKRACE{
                 assert(0);
             }
         }
+
         std::string Card::ToString() const{
             std::string color;
             std::string text;
@@ -160,6 +164,26 @@ namespace CHICKRACE{
             default:
                 assert(0);
             }
+        }
+
+        void CardPile::swapSet(CardPile &cardpile,int i,int j){
+            Card temp;
+            auto iterThis=this->mPile.begin();
+            auto iterThat=cardpile.mPile.begin();
+            /* 
+            指向被换元素
+             */
+            for(int t=1;t<i;t++){
+                iterThis++;
+            }
+            for(int t=1;t<j;t++){
+                iterThat++;
+            }
+            temp=*iterThis;
+            this->mPile.erase(iterThis);
+            this->mPile.emplace(*iterThat);
+            cardpile.mPile.erase(iterThat);
+            cardpile.mPile.emplace(temp);
         }
     }
 }
