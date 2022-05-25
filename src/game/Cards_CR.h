@@ -73,13 +73,13 @@ namespace CHICKRACE{
             static CardColor FromChar(char c);
             friend std::ostream &operator<<(std::ostream &os, const CardColor &color);
             
-            //重载关系运算符用以实现手牌的自动排序
-             bool operator<(const Card &rhs) const{
-                if (mText<rhs.mText){
+            //重载关系运算符用以实现牌组的自动排序，牌组的排序规则为，先比花色后比数字
+            bool operator<(const Card &rhs) const{
+                if (mColor<rhs.mColor){
                     return true;
                 }
-                else if (mText == rhs.mText){
-                    return (mColor < rhs.mColor);
+                else if (mColor==rhs.mColor){
+                    return (mText < rhs.mText);
                 }
                 else{
                     return false;
@@ -94,16 +94,35 @@ namespace CHICKRACE{
 
 
         /* 
-        牌组的排序规则为，先比数字后比花色
+        手牌的排序规则为，先比花色再比数字
          */
         struct cmp{
         public:
-            bool operator()(const Card &s1,const Card &s2){
+            bool operator()(const Card &s1,const Card &s2)const{
                 return (s1<s2);
             }
 
         };
 
+        /* 
+        牌组的排序规则，先比数字后比花色，方便表示顺子
+         */
+        struct cmp1{
+        public:
+            bool operator()(const Card &s1,const Card &s2)const{
+                if (s1.mText<s2.mText){
+                    return true;
+                }
+                else if (s1.mText==s2.mText){
+                    if (s1.mColor < s2.mColor){
+                        return true;
+                    }
+                }
+                else{
+                    return false;
+                }
+            }
+        };
 
         class CardPair{
         public:
@@ -121,6 +140,12 @@ namespace CHICKRACE{
              */
 
             Cardset cardForm() const;
+
+            /* 
+            该函数将牌组里第i张牌移回手牌
+             */
+            
+            Card remove(int i);//待写
 
             /* 
             判断牌组的大小
@@ -182,7 +207,7 @@ namespace CHICKRACE{
 
         private:
             
-            std::set<Card,cmp> mPile;//不需要再另立一个最大牌面的属性，因为set已经排列好了
+            std::set<Card,cmp1> mPile;//不需要再另立一个最大牌面的属性，因为set已经排列好了
         };
 
     }
@@ -190,7 +215,8 @@ namespace CHICKRACE{
     public:
     HandCards(const std::array<game::Card,9> &cards);
     private:
-        game::Card mCard[9];
+        std::set<game::Card,game::cmp> mCards;//初始手牌是一个先按照花色后按照大小排序的set
+
         
     };
 }

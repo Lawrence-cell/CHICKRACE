@@ -239,11 +239,27 @@ namespace CHICKRACE{
             return Cardset::ORDINARY;
             
         }
+        /* 
+        删除卡组中第i位的卡片
+         */
+        game::Card CardPair::remove(int i){
+            auto iter=mPile.begin();
+            for (int i = 1; i < i; i++)
+            {
+                iter++;
+            }
+            
+            this->mPile.erase(iter);
+        }
 
         /* 
-        构造每个人的牌
+        构造每个人的初始手牌
          */
-
+        HandCards::HandCards(const std::array<game::Card,9> &cards){
+            for (int i=0;i<9;i++){
+                this->mCards.emplace(cards.at(i));
+            }
+        }
 
     }
 }
