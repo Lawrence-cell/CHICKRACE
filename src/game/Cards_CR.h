@@ -188,7 +188,9 @@ namespace CHICKRACE{
     }
     class HandCards{
     public:
-
-
+    HandCards(const std::array<game::Card,9> &cards);
+    private:
+        game::Card mCard[9];
+        
     };
 }

@@ -196,6 +196,9 @@ namespace CHICKRACE{
             }
         }
 
+        /* 
+        判断牌组属于什么牌型
+         */
         Cardset CardPair::cardForm()const{
             auto iterfirst=mPile.begin();
             auto iterSecond=mPile.begin()++;
@@ -236,5 +239,11 @@ namespace CHICKRACE{
             return Cardset::ORDINARY;
             
         }
+
+        /* 
+        构造每个人的牌
+         */
+
+
     }
 }
