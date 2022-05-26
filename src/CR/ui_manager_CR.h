@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-05-26 13:10:15
+ * @LastEditTime: 2022-05-26 15:44:11
  * @FilePath: \UNO\src\CR\ui_manager_CR.h
  * @Description:
  *
@@ -18,8 +18,11 @@ namespace UNO
 
         class UIManager_CR : public UIManager
         {
+
         public:
-            void RenderWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime);
+            using UIManager::UIManager;
+
+            void RenderWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime, bool isCR);
         };
 
     } // namespace ui
