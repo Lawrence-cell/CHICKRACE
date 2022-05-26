@@ -261,5 +261,34 @@ namespace CHICKRACE{
             }
         }
 
+        /* 
+        移除手牌中的第i张卡
+         */
+        void HandCards::Erase(int index){
+            auto iter=mCards.begin();
+            for(int i=1;i<index;i++){
+                iter++;
+            }
+            this->mCards.erase(iter);
+        }
+        
+        int HandCards::getIndex(game::Card card)const{
+            auto iterBegin=this->mCards.begin();
+            auto iterGoat=mCards.find(card);
+            return (distance(iterBegin,iterGoat));
+        }
+
+        std::string HandCards::ToStringByCard(int start,int len) const{
+            std::string str;
+            std::for_each(std::next(mCards.begin(),start),std::next(mCards.begin(),start + len),[&str](game::Card card){
+                str.append(" ").append(card.ToString()).append(" ");
+            });
+            return str;
+        }
+        
+        std::string HandCards:: ToString() const{
+            return ToStringByCard(0,mCards.size());
+        }
+        
     }
 }

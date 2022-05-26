@@ -148,7 +148,7 @@ namespace CHICKRACE{
             Card remove(int i);//待写
 
             /* 
-            判断牌组的大小
+            重载比较运算符判断牌组的大小
              */
             bool operator<(const CardPair &rhs) const{
                 auto iterfirst=mPile.begin();
@@ -214,9 +214,146 @@ namespace CHICKRACE{
     class HandCards{
     public:
     HandCards(const std::array<game::Card,9> &cards);
+
+    /* 
+    抽取一系列的的卡牌然后将他们添加到手牌上
+     */
+    void Draw(const std::vector<game::Card> &cards);//待写，因为没有抽牌的机会,具体看后面实现的情况
+
+
+    /* 
+    从手牌中移除一张牌，为了添加到牌组中去
+     */
+    void Erase(int index);
+
+    /* 
+    判断手牌是不是空的
+     */
+    bool Empty() const {return mCards.empty();};
+
+
+    /* 
+    返回某张卡牌在手中的序号，判断其是否存在有函数的Caller来判断
+     */
+    int getIndex(game::Card card) const;
+
+    /* 
+    getter 获得卡牌中某个位置对应的Card对象
+     */
+    game::Card At(int index) const{return *IteratorAt(index);}
+
+    /* 
+    返回指向set中特定元素的迭代器
+     */
+    std::set<game::Card,game::cmp>::iterator HandCards::IteratorAt(int index) const
+        {
+            auto it = std::begin(mCards);
+            std::advance(it, index-1);
+            return it;
+        }
+
+    /* 
+    返回手牌中卡片的数量
+     */
+    int number() const {return mCards.size();}
+
+
+    /* 
+    将手牌输出为字符串方便实现文字界面如"R2"等
+     */
+    std::string ToString() const;
+
+    /* 
+    将手牌以片段形式转化为字符
+     */
+    std::string ToStringBySegment(int seg) const;// 待写，因为暂时认为比鸡用不到片段输出
+
+    //Length() 函数不用写因为在比鸡中所有的Text长度都为2
+
+
+    /* 
+    清空手牌再来一局
+     */
+    void clear(){mCards.clear();}
+
+    
+    
+
     private:
         std::set<game::Card,game::cmp> mCards;//初始手牌是一个先按照花色后按照大小排序的set
-
+        std::string ToStringByCard(int start,int len) const;
         
     };
+
+    class CardPile{
+        protected:
+
+            /* 
+            开始一局新游戏时将牌一张张地输入进牌组
+             */
+            template<typename... Types>
+            void PushFront(Types... args)
+            {
+                mPile.emplace_front(ars...);
+            }
+
+        /* 
+        每发一张牌，就从牌对顶部移除一张牌，并将其作为返回值返回
+         */
+        game::Card popFront(){
+            game::Card card=mPile.front();
+            mPile.pop_front();
+            return card;
+        }
+
+        template <typename... Types>
+        void pushFront(Types... args)
+        {
+            mPile.emplace_front(args...);
+        }
+
+        /* 
+        将牌堆中的最后一张牌移除并作为返回值返回
+         */
+        game::Card popBack(){
+            game::Card card=mPile.back();
+            mPile.pop_back();
+            return card;
+        }
+        /* 
+        将牌堆的排序洗乱
+         */
+        void Shuffle(){
+            std::random_device rd;
+            std::mt19937 g(rd());
+            std::shuffle(mPile.begin(),mPile.end(),g);
+
+        }
+
+        /* 
+        与目标牌堆交换
+         */
+        void swap(CardPile &pile){std::swap(mPile,pile.mPile);};
+
+        /* 
+        清空牌堆
+         */
+        void clear(){mPile.clear();};
+
+        /* 
+        Empty函数判断是否为空没有写，因为觉得可能用不到
+         */
+
+        private:
+        std::deque<game::Card> mPile;
+    };
+
+    /* 
+    弃牌堆没有写，因为可能用不上
+     */
+
+    
+    
+    
+
 }
