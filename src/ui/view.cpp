@@ -52,6 +52,8 @@ namespace UNO
 
         void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
         {
+            auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
+            AlignCenter(centerRow / 2 - 1, 0, centerCol, "WAITING PHASE");
 
             if (isFirstTime) // whether this function is first exec or not IN THE SAME CLIENT
             {
@@ -60,33 +62,52 @@ namespace UNO
             }
             for (int playerIndex = 0; playerIndex < Common::Common::mPlayerNum; playerIndex++)
             {
+
+                // playerIndex代表的是哪个方块
                 auto [row, col] = ViewFormatter::GetPosOfPlayerBox(playerIndex);
                 auto [height, width] = ViewFormatter::GetBaseScaleOfBox(playerIndex);
 
                 int curNum = usernames.size();
                 //同一客户端第二次运行时 curNum变成2
                 int absoluteIndex = Common::Util::WrapWithPlayerNum(playerIndex + mMyIndex);
-
+                //取值范围： 0 - 2
+                DrawBorder(row, col, width, height - 2);
                 if (playerIndex == 0)
                 {
-                    AlignCenter(row + 3, col, width, "Waiting for players to join game...");
+                    AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
+                    if (curNum == 1)
+                    {
+                        AlignCenter(row + 3, col, width, "Waiting for players to join game...");
+                    }
+                    else
+                    {
+                        AlignCenter(row + 3, col, width, "READY!");
+                    }
                 }
                 else
                 {
-                    AlignCenter(row + 3, col, width, "WAITING PHASE");
+                    if (absoluteIndex < curNum)
+                    {
+                        AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
+                        AlignCenter(row + 3, col, width, "READY!");
+                    }
+                    else
+                    {
+                        AlignCenter(row + 3, col, width, "WAITING");
+                    }
+
                     // Copy(row + 3, col + 2, "WAITING");
                     // Copy(row + 3, col + 2, CARDS_REMAINED_STR);
                     // Copy(row + 4, col + 2, LAST_PLAYED_STR);
                 }
-                if (absoluteIndex >= curNum)
-                {
-                    // username unknown yet
-                    DrawBorder(row, col, width, height - 2);
-                }
-                else
-                {
-                    DrawBorderAndUsername(row, col, width, height - 2, usernames[absoluteIndex]);
-                }
+
+                // if (absoluteIndex < curNum)
+                // {
+                //     ClearLinesInBlock(row + 3, col + 1, width);
+                //     ClearLinesInBlock(row + 1, col + 1, width);
+                //     AlignCenter(row + 3, col, width, "READY!");
+                //     AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
+                // }
             }
         }
 
@@ -199,6 +220,14 @@ namespace UNO
             }
         }
 
+        void View::ClearLinesInBlock(int row, int col, int width)
+        {
+            for (int col = 0; col < width; col++)
+            {
+                mView[row][col] = ' ';
+            }
+        }
+
         void View::DrawBorder(int row, int col, int width, int height)
         {
             DrawHorizontalBorder(row, col, width);
@@ -248,6 +277,7 @@ namespace UNO
         void View::AlignCenter(int row, int col, int width, const std::string &src)
         {
             int indent = (width - src.size()) / 2;
+
             Copy(row, col + indent, src);
         }
 

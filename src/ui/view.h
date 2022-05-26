@@ -74,9 +74,11 @@ namespace UNO
         private:
             void DrawBorder(int row, int col, int width, int height);
 
+            void ClearLinesInBlock(int row, int col, int width);
+
             void DrawBorderAndUsername(int row, int col, int width, int height, const std::string &username);
 
-                        void DrawHorizontalBorder(int row, int col, int length);
+            void DrawHorizontalBorder(int row, int col, int length);
 
             void DrawVerticalBorder(int row, int col, int height);
 
