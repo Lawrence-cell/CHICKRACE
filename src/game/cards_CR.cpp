@@ -3,6 +3,27 @@
 namespace CHICKRACE{
     namespace game{
         /* 
+        初始化Cardset中的Const成员以遍历
+         */
+        const std::set<CardColor> CardSet::Cardcolors={CardColor::S,CardColor::F,CardColor::R,CardColor::B};
+        const std::set<CardText> CardSet::CardTexts ={
+            CardText::TWO,
+            CardText::THREE,
+            CardText::FOUR,
+            CardText:: FIVE,
+            CardText::SIX,
+            CardText::SEVEN,
+            CardText::EIGHT,
+            CardText::NINE,
+            CardText::TEN,
+            CardText::JACK,
+            CardText::QUEEN,
+            CardText::KING,
+            CardText::ONE//A是最大的
+        };
+
+        
+        /* 
         重载输出函数，可能用于UI的界面输出
          */
         std::ostream &operator<<(std::ostream &os, const CardColor &color)
@@ -290,10 +311,28 @@ namespace CHICKRACE{
             return ToStringByCard(0,mCards.size());
         }
 
-        void Deck::Init()//还没写完
+        Card Deck::Draw(){
+            return popFront();
+        }
+
+        void Deck::Init()
         {
             this->clear();
+            for(auto color:CardSet::Cardcolors){
+                for(auto text:CardSet::CardTexts){
+                    PushFront(color,text);
+                }
+            }
+            Shuffle();
+            
+        }
 
+        std::vector<std::array<game::Card,9>> Deck:: DealInitHandCards(int playerNum){
+            std::vector<std::array<game::Card,9>> initHandCards(playerNum);
+            for(int card =0;card<7;card++){
+                for (int player =0;player< playerNum;player++){
+                    initHandCards[player][card] = Draw();
+                }
             }
         }
         

@@ -54,6 +54,15 @@ namespace CHICKRACE{
             STRAIGHT_FLUSH,//同花顺
             LEOPARD//豹子
         };
+
+        /* 
+        遍历数组的尝试
+         */
+        struct CardSet
+        {
+            const static std::set<CardColor> Cardcolors;
+            const static std::set<CardText> CardTexts;
+        };
         
 
         struct Card{
@@ -304,6 +313,9 @@ namespace CHICKRACE{
             return card;
         }
 
+        /* 
+        在牌堆前边添加一张牌
+         */
         template <typename... Types>
         void pushFront(Types... args)
         {
@@ -366,7 +378,7 @@ namespace CHICKRACE{
         /* 
         Draw函数抽牌没写因为可能用不到
          */
-
+        Card Draw();
         /* 
         抽n张卡函数没写因为可能用不到
          */
