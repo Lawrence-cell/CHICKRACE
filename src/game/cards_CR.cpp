@@ -289,6 +289,13 @@ namespace CHICKRACE{
         std::string HandCards:: ToString() const{
             return ToStringByCard(0,mCards.size());
         }
+
+        void Deck::Init()//还没写完
+        {
+            this->clear();
+
+            }
+        }
         
     }
 }

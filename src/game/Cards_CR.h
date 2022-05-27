@@ -209,8 +209,6 @@ namespace CHICKRACE{
             
             std::set<Card,cmp1> mPile;//不需要再另立一个最大牌面的属性，因为set已经排列好了
         };
-
-    }
     class HandCards{
     public:
     HandCards(const std::array<game::Card,9> &cards);
@@ -352,8 +350,35 @@ namespace CHICKRACE{
     弃牌堆没有写，因为可能用不上
      */
 
-    
-    
+    class Deck : public CardPile
+    {
+    public:
+        /* 
+        初始化牌堆为52张牌并洗牌
+         */
+        void Init( );
+        
+        /* 
+        将九张牌添加到每个玩家的初始手牌
+         */
+        std::vector<std::array<game::Card,9>> DealInitHandCards(int playerNum);
+
+        /* 
+        Draw函数抽牌没写因为可能用不到
+         */
+
+        /* 
+        抽n张卡函数没写因为可能用不到
+         */
+
+        /* 
+        添加一张牌到牌堆的底部没写因为可能用不到
+         */
+
     
 
+    };
+
+
+    }
 }
