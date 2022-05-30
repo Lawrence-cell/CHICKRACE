@@ -1,13 +1,3 @@
-/*
- * @Author: lawrence-cell 850140027@qq.com
- * @Generate Date: Do not edit
- * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-05-26 15:46:51
- * @FilePath: \UNO\src\main.cpp
- * @Description:
- *
- * Copyright (c) 2022 by lawrence-cell 850140027@qq.com, All Rights Reserved.
- */
 #include <iostream>
 #include <cxxopts.hpp>
 #include <yaml-cpp/yaml.h>
@@ -22,7 +12,9 @@
 #include "game/player.h"
 #include "common/util.h"
 #include "common/config.h"
-#include "CR/ui_manager_CR.h"
+///////////////
+#include "gameBoard_CR.h"
+#include "player_CR.h"
 
 using namespace UNO;
 
@@ -34,35 +26,44 @@ int main(int argc, char **argv)
     spdlog::set_default_logger(spdlog::basic_logger_mt("UNO", configInfo->mLogPath));
     spdlog::default_logger()->flush_on(spdlog::level::info);
     spdlog::info("hello, spdlog");
-#endif
+#endif  
 
-    if (configInfo->test_mode)
-    {
-        std::cout << "ui test begin";
-        std::unique_ptr<UNO::UI::HandCards> mHandCards;
+    if (configInfo->test_mode) {
+        //std::cout << "ui test begin";
+        //std::unique_ptr<UNO::UI::HandCards> mHandCards;
 
-        // state of game board
-        std::unique_ptr<UNO::UI::GameStat> mGameStat;
+        //// state of game board
+        //std::unique_ptr<UNO::UI::GameStat> mGameStat;
 
-        // state of all players
-        std::vector<UNO::UI::PlayerStat> mPlayerStats;
+        //// state of all players
+        //std::vector<UNO::UI::PlayerStat> mPlayerStats;
 
-        // initusername
-        std::vector<std::string> initUsernames = {"test a", "test b", "test c"};
-        auto mUIManager_CR = std::make_unique<UNO::UI::UIManager_CR>(mGameStat, mPlayerStats, mHandCards);
-        mUIManager_CR->RenderWhenInitWaiting(initUsernames, true, true);
-        system("pause");
-        std::exit(0);
+        ////initusername
+        //std::vector<std::string>initUsernames = { "test a","test b" };
+        //auto mUIManager = std::make_unique<UNO::UI::UIManager>(mGameStat, mPlayerStats, mHandCards);
+        //mUIManager->RenderWhenInitWaiting(initUsernames, true);
+        ////system("pause");
+        //std::exit(0);
+
+        if (configInfo->mIsServer) {
+            auto serverSp = GTest::test_GameBoard::CreateServer(configInfo->mPort);
+            GTest::test_GameBoard gameBoard(serverSp);
+            gameBoard.Start();
+        }
+        else {
+            auto clientSp = GTEST::test_Player::CreateClient(configInfo->mHost, configInfo->mPort);
+            GTEST::test_Player player(configInfo->mUsername, clientSp);
+            player.Start();
+        }
+
     }
 
-    if (configInfo->mIsServer)
-    {
+    if (configInfo->mIsServer) {
         auto serverSp = Game::GameBoard::CreateServer(configInfo->mPort);
         Game::GameBoard gameBoard(serverSp);
         gameBoard.Start();
     }
-    else
-    {
+    else {
         auto clientSp = Game::Player::CreateClient(configInfo->mHost, configInfo->mPort);
         Game::Player player(configInfo->mUsername, clientSp);
         player.Start();

@@ -18,7 +18,7 @@ void Server::Run()
     while (mShouldReset) {
         mShouldReset = false;
         Accept();
-        mContext.run();     //程序被阻塞，直到Accept执行完成？
+        mContext.run();     
 
         std::cout << "All players have joined. Game Start!" << std::endl;
         OnAllPlayersJoined();
@@ -36,6 +36,7 @@ void Server::Accept()
 
             mSessions.push_back(std::make_unique<Session>(std::move(socket)));
             std::unique_ptr<JoinGameInfo> info = mSessions.back()->ReceiveInfo<JoinGameInfo>();
+            std::cout << "1111111" << std::endl;
             OnReceiveJoinGameInfo(index, *info);
         }
         if (mSessions.size() < Common::Common::mPlayerNum) {

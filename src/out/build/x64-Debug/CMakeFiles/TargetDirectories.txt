@@ -1,0 +1,3 @@
+C:/Users/thunder/Desktop/c++_apllication/UNO/src/out/build/x64-Debug/CMakeFiles/uno.dir
+C:/Users/thunder/Desktop/c++_apllication/UNO/src/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/thunder/Desktop/c++_apllication/UNO/src/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

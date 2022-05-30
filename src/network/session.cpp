@@ -1,7 +1,7 @@
 #include "session.h"
 
 namespace UNO { namespace Network {
-
+    
 Session::Session(tcp::socket socket) : mSocket(std::move(socket)) {}
 
 /**
