@@ -42,6 +42,11 @@ namespace UNO
             void RenderWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime);
 
             /**
+             * Render view when game start.
+             */
+            void RenderWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime);
+
+            /**
              * Render view in the main game loop.
              */
             void Render(bool useCls = true);

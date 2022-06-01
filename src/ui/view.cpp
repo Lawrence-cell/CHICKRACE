@@ -50,6 +50,52 @@ namespace UNO
             }
         }
 
+        void View::DrawWhenInGame(const std::vector<std::string> &usernames)
+        {
+            auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
+            AlignCenter(centerRow / 2 - 1, 0, centerCol, "PREPARE PHASE");
+
+            for (int playerIndex = 0; playerIndex < Common::Common::mPlayerNum; playerIndex++)
+            {
+
+                // playerIndex代表的是哪个方块
+                auto [row, col] = ViewFormatter::GetPosOfPlayerBox(playerIndex);
+                auto [height, width] = ViewFormatter::GetBaseScaleOfBox(playerIndex);
+
+                int curNum = usernames.size();
+                //同一客户端第二次运行时 curNum变成2
+                int absoluteIndex = Common::Util::WrapWithPlayerNum(playerIndex + mMyIndex);
+                //取值范围： 0 - 2
+
+                if (playerIndex == 0)
+                {
+
+                    AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
+                    if (curNum == 1)
+                    {
+                        AlignCenter(row + 3, col, width, "Waiting for players to join game...");
+                    }
+                    else
+                    {
+                        AlignCenter(row + 3, col, width, "READY!");
+                    }
+                }
+                else
+                {
+                    DrawBorder(row, col, width, height - 2);
+                    if (absoluteIndex < curNum)
+                    {
+                        AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
+                        AlignCenter(row + 3, col, width, "READY!");
+                    }
+                    else
+                    {
+                        AlignCenter(row + 3, col, width, "WAITING");
+                    }
+                }
+            }
+        }
+
         void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
         {
             auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
@@ -228,14 +274,19 @@ namespace UNO
             }
         }
 
+        void View::DrawBorder_InGameMine(int row, int col, int width, int height)
+        {
+        }
+
         void View::DrawBorder(int row, int col, int width, int height)
         {
+            DrawVerticalBorder(row + 1, col, height * 2.5);
+            DrawVerticalBorder(row + 1, col + width - 1, height * 2.5);
             DrawHorizontalBorder(row, col, width);
             DrawHorizontalBorder(row + height + 1, col, width);
             // DrawHorizontalBorder(row + 1, col, width);
             //行数， 列数， 线的长度
-            DrawVerticalBorder(row + 1, col, height);
-            DrawVerticalBorder(row + 1, col + width - 1, height);
+
             DrawHorizontalBorder(row + 2, col, width);
         }
 

@@ -67,6 +67,14 @@ namespace UNO
             GameLoop();
         }
 
+        void Player::GameLoop_CR()
+        {
+            while (!mGameStat->DoesGameEnd()) //初步设计逻辑是只要有玩家不退出 游戏就一直进行
+            {
+                /* code */
+            }
+        }
+
         void Player::GameLoop()
         {
             while (!mGameStat->DoesGameEnd())

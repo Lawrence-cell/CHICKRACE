@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-05-26 14:09:13
+ * @LastEditTime: 2022-06-02 00:27:38
  * @FilePath: \UNO\src\ui\view_formatter.h
  * @Description:
  *
@@ -47,6 +47,8 @@ namespace UNO
             static ScaleT GetMaxScaleOfView();
 
             static ScaleT GetBaseScaleOfBox(int playerIndex);
+
+            static ScaleT GetSingleHeightofBox();
 
         private:
             static std::vector<std::vector<PosT>> mPosOfPlayerBox;

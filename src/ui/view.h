@@ -30,6 +30,8 @@ namespace UNO
              */
             void DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime);
 
+            void DrawWhenInGame(const std::vector<std::string> &usernames);
+
             void DrawWhenInitWaiting_CR(const std::vector<std::string> &usernames, bool isFirstTime);
 
             /**
@@ -73,6 +75,8 @@ namespace UNO
 
         private:
             void DrawBorder(int row, int col, int width, int height);
+
+            void DrawBorder_InGameMine(int row, int col, int width, int height);
 
             void ClearLinesInBlock(int row, int col, int width);
 

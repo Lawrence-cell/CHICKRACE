@@ -183,5 +183,10 @@ namespace UNO
             }
         }
 
+        int ViewFormatter::GetSingleHeightofBox()
+        {
+            return 1;
+        }
+
     }
 }

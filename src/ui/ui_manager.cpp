@@ -48,6 +48,13 @@ namespace UNO
             }
         }
 
+        void UIManager::RenderWhenInGame(const std::vector<std::string> &usernames, bool isFirstTime)
+        {
+            mView->Clear(true);
+            mView->DrawWhenInitWaiting(usernames, isFirstTime);
+            mOutputter->PrintRawView(*mView);
+        }
+
         void UIManager::RenderWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
         {
             mView->Clear(true);

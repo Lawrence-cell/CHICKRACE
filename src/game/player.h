@@ -8,92 +8,99 @@
 #include "../network/client.h"
 #include "../ui/ui_manager.h"
 
-namespace UNO { namespace Game {
+namespace UNO
+{
+    namespace Game
+    {
 
-using namespace Network;
-using namespace UI;
+        using namespace Network;
+        using namespace UI;
 
-class Player {
-public:
-    explicit Player(std::string username, std::shared_ptr<Network::IClient> clientSp);
+        class Player
+        {
+        public:
+            explicit Player(std::string username, std::shared_ptr<Network::IClient> clientSp);
 
-    void Start();
+            void Start();
 
-    static std::shared_ptr<Network::IClient> CreateClient(const std::string &host, 
-        const std::string &port);
+            static std::shared_ptr<Network::IClient> CreateClient(const std::string &host,
+                                                                  const std::string &port);
 
-private:
-    /**
-     * Connection succeeded. Prepare game state and wait for others joining.
-     */
-    void JoinGame();
+        private:
+            /**
+             * Connection succeeded. Prepare game state and wait for others joining.
+             */
+            void JoinGame();
 
-    /**
-     * Main game loop, 
-     *   1) in player's turn, get his action and deliver to server;
-     *   2) in others' turn, receive info and render ui.
-     */
-    void GameLoop();
+            /**
+             * Main game loop,
+             *   1) in player's turn, get his action and deliver to server;
+             *   2) in others' turn, receive info and render ui.
+             */
+            void GameLoop();
 
-    /**
-     * Deliver info after player does a draw action.
-     */
-    void HandleSelfDraw();
+            void GameLoop_CR();
 
-    /**
-     * Deliver info after player does a skip action.
-     */
-    void HandleSelfSkip();
+            /**
+             * Deliver info after player does a draw action.
+             */
+            void HandleSelfDraw();
 
-    /**
-     * Deliver info after player does a play action.
-     */
-    bool HandleSelfPlay(int cardIndex);
+            /**
+             * Deliver info after player does a skip action.
+             */
+            void HandleSelfSkip();
 
-    /**
-     * Update state after a draw action either from player or others.
-     */
-    void UpdateStateAfterDraw(int playerIndex, int number, int indexOfNewlyDrawn = -1);
-    
-     /**
-     * Update state after a skip action either from player or others.
-     */
-    void UpdateStateAfterSkip(int playerIndex);
-    
-     /**
-     * Update state after a play action either from player or others.
-     */
-    void UpdateStateAfterPlay(int playerIndex, Card cardPlayed);
+            /**
+             * Deliver info after player does a play action.
+             */
+            bool HandleSelfPlay(int cardIndex);
 
-    /**
-     * Someone has won, end game.
-     */
-    void Win(int playerIndex);
+            /**
+             * Update state after a draw action either from player or others.
+             */
+            void UpdateStateAfterDraw(int playerIndex, int number, int indexOfNewlyDrawn = -1);
 
-    /**
-     * Wait for the player to decide whether want to play again.
-     */
-    void GameEnds();
+            /**
+             * Update state after a skip action either from player or others.
+             */
+            void UpdateStateAfterSkip(int playerIndex);
 
-    /**
-     * Reset the game state and prepare for reconnection.
-     */
-    void ResetGame();
+            /**
+             * Update state after a play action either from player or others.
+             */
+            void UpdateStateAfterPlay(int playerIndex, Card cardPlayed);
 
-    void PrintLocalState();
+            /**
+             * Someone has won, end game.
+             */
+            void Win(int playerIndex);
 
-private:
-    const std::string mUsername;
-    std::string mWinner;
-    std::shared_ptr<Network::IClient> mClient;
+            /**
+             * Wait for the player to decide whether want to play again.
+             */
+            void GameEnds();
 
-    std::unique_ptr<UIManager> mUIManager;
-    std::unique_ptr<HandCards> mHandCards;
+            /**
+             * Reset the game state and prepare for reconnection.
+             */
+            void ResetGame();
 
-    // state of game board
-    std::unique_ptr<GameStat> mGameStat;
+            void PrintLocalState();
 
-    // state of all players
-    std::vector<PlayerStat> mPlayerStats;
-};
-}}
+        private:
+            const std::string mUsername;
+            std::string mWinner;
+            std::shared_ptr<Network::IClient> mClient;
+
+            std::unique_ptr<UIManager> mUIManager;
+            std::unique_ptr<HandCards> mHandCards;
+
+            // state of game board
+            std::unique_ptr<GameStat> mGameStat;
+
+            // state of all players
+            std::vector<PlayerStat> mPlayerStats;
+        };
+    }
+}
