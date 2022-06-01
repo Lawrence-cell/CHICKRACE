@@ -29,6 +29,7 @@ namespace UNO
             mTimerThreadShouldStop = true;
             // don't forget to join the thread
             mTimerThread->join();
+            //调用join的线程会阻塞 等待mTimerThread执行结束
         }
 
         void UIManager::TimerThreadLoop()
