@@ -48,7 +48,7 @@ namespace UNO
             {
 
                 auto joinInfo = Common::Util::Receive<JoinGameInfo>(mClient);
-                //会阻塞 当其他client加入后继续执行
+                //会阻塞!! 当其他client加入后继续执行
 
                 initUsernames.push_back(joinInfo->mUsername);
                 mUIManager->RenderWhenInitWaiting(initUsernames, false);
@@ -89,18 +89,19 @@ namespace UNO
                 {
                     // when it's my turn, reset the cursor for a better ui,
                     // except the condition that having a chance to play immediately after draw
-                    if (!mPlayerStats[0].HasChanceToPlayAfterDraw())
+                    if (!mPlayerStats[0].HasChanceToPlayAfterDraw()) //是否有机会出牌
                     {
                         mUIManager->NextTurn();
                     }
+
                     bool actionSuccess = false;
                     bool lastCardCanBePlayed = true;
                     while (!actionSuccess)
                     {
                         auto [action, cardIndex] = mUIManager->GetAction(lastCardCanBePlayed,
                                                                          mPlayerStats[0].HasChanceToPlayAfterDraw());
-                        std::vector<std::string> test = {"p1", "p2", "p3"};
-                        mUIManager->RenderWhenInGame(test);
+                        //此处绘制ui
+
                         switch (action)
                         {
                         case InputAction::PASS:

@@ -73,6 +73,7 @@ namespace UNO
             else
             {
                 mView->Clear(false, mGameStat->GetCurrentPlayer());
+                //部分清除
             }
             mView->DrawSelfBox(*mGameStat, mPlayerStats[0], *mHandCards, mCursorIndex);
             for (int i = 1; i < mPlayerStats.size(); i++)
@@ -106,11 +107,13 @@ namespace UNO
                 mView->DrawSelfTimeIndicatorIfNot();
             }
             mOutputter->PrintView(*mView, useCls);
+            //打印boxes
 
             if (isMyTurn)
             {
                 mOutputter->PrintHintText(mIsSpecifyingNextColor, mLastCardCanBePlayed,
                                           mHasChanceToPlayAfterDraw);
+                //打印文字提示内容
             }
         }
 
