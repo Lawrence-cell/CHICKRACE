@@ -53,7 +53,7 @@ namespace UNO
         void View::DrawWhenInGame(const std::vector<std::string> &usernames)
         {
             auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
-            AlignCenter(centerRow / 2 - 1, 0, centerCol, "PREPARE PHASE");
+            AlignCenter(7, 0, centerCol - 4, "PREPARE PHASE");
 
             for (int playerIndex = 0; playerIndex < Common::Common::mPlayerNum; playerIndex++)
             {
@@ -61,37 +61,27 @@ namespace UNO
                 // playerIndex代表的是哪个方块
                 auto [row, col] = ViewFormatter::GetPosOfPlayerBox(playerIndex);
                 auto [height, width] = ViewFormatter::GetBaseScaleOfBox(playerIndex);
+                int singleBlockHeight = height / 2 - 1; // 单边block长度为2
 
-                int curNum = usernames.size();
-                //同一客户端第二次运行时 curNum变成2
                 int absoluteIndex = Common::Util::WrapWithPlayerNum(playerIndex + mMyIndex);
                 //取值范围： 0 - 2
+                std::string cardExample = "R2  R2  Y2  W3  B2  G5  G2  G2  B3";
+                std::string FirstComposeConfig = " >__<       __        __";
 
                 if (playerIndex == 0)
                 {
-
+                    DrawBorder_InGameMine(row, col, width, singleBlockHeight);
                     AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
-                    if (curNum == 1)
-                    {
-                        AlignCenter(row + 3, col, width, "Waiting for players to join game...");
-                    }
-                    else
-                    {
-                        AlignCenter(row + 3, col, width, "READY!");
-                    }
+                    AlignCenter(row + 1 + singleBlockHeight, col, width, cardExample);            //接收随机分发的九张卡牌
+                    AlignCenter(row + 1 + singleBlockHeight * 2, col, width, FirstComposeConfig); //配牌选项 第一道
+                    AlignCenter(row + 1 + singleBlockHeight * 3, col, width, FirstComposeConfig); //配牌选项 第二道
+                    AlignCenter(row + 1 + singleBlockHeight * 4, col, width, FirstComposeConfig); //配牌选项 第二道
                 }
                 else
                 {
-                    DrawBorder(row, col, width, height - 2);
-                    if (absoluteIndex < curNum)
-                    {
-                        AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
-                        AlignCenter(row + 3, col, width, "READY!");
-                    }
-                    else
-                    {
-                        AlignCenter(row + 3, col, width, "WAITING");
-                    }
+                    DrawBorder(row, col, width, singleBlockHeight);
+                    AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
+                    AlignCenter(row + 1 + singleBlockHeight, col, width, "PREPARE");
                 }
             }
         }
@@ -99,7 +89,7 @@ namespace UNO
         void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
         {
             auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
-            AlignCenter(centerRow / 2 - 1, 0, centerCol, "WAITING PHASE");
+            AlignCenter(7, 0, centerCol - 4, "WAITING PHASE");
 
             if (isFirstTime) // whether this function is first exec or not IN THE SAME CLIENT
             {
@@ -112,22 +102,24 @@ namespace UNO
                 // playerIndex代表的是哪个方块
                 auto [row, col] = ViewFormatter::GetPosOfPlayerBox(playerIndex);
                 auto [height, width] = ViewFormatter::GetBaseScaleOfBox(playerIndex);
+                int singleBlockHeight = height / 2 - 1; // 单边block长度为2
 
                 int curNum = usernames.size();
                 //同一客户端第二次运行时 curNum变成2
                 int absoluteIndex = Common::Util::WrapWithPlayerNum(playerIndex + mMyIndex);
                 //取值范围： 0 - 2
-                DrawBorder(row, col, width, height - 2);
+                DrawBorder(row, col, width, singleBlockHeight); // height =6
+
                 if (playerIndex == 0)
                 {
                     AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
                     if (curNum == 1)
                     {
-                        AlignCenter(row + 3, col, width, "Waiting for players to join game...");
+                        AlignCenter(row + singleBlockHeight + 1, col, width, "Waiting for players to join game...");
                     }
                     else
                     {
-                        AlignCenter(row + 3, col, width, "READY!");
+                        AlignCenter(row + singleBlockHeight + 1, col, width, "READY!");
                     }
                 }
                 else
@@ -135,11 +127,11 @@ namespace UNO
                     if (absoluteIndex < curNum)
                     {
                         AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
-                        AlignCenter(row + 3, col, width, "READY!");
+                        AlignCenter(row + singleBlockHeight + 1, col, width, "READY!");
                     }
                     else
                     {
-                        AlignCenter(row + 3, col, width, "WAITING");
+                        AlignCenter(row + singleBlockHeight + 1, col, width, "WAITING");
                     }
 
                     // Copy(row + 3, col + 2, "WAITING");
@@ -274,20 +266,27 @@ namespace UNO
             }
         }
 
-        void View::DrawBorder_InGameMine(int row, int col, int width, int height)
+        void View::DrawBorder_InGameMine(int row, int col, int width, int singleBlockHeight)
         {
+            DrawVerticalBorder(row + 1, col, singleBlockHeight * 5);
+            DrawVerticalBorder(row + 1, col + width - 1, singleBlockHeight * 5);
+            DrawHorizontalBorder(row, col, width);
+            DrawHorizontalBorder(row + singleBlockHeight, col, width);
+            DrawHorizontalBorder(row + singleBlockHeight * 2, col, width);
+            DrawHorizontalBorder(row + singleBlockHeight * 3, col, width);
+            DrawHorizontalBorder(row + singleBlockHeight * 4, col, width);
+            DrawHorizontalBorder(row + singleBlockHeight * 5, col, width);
         }
 
         void View::DrawBorder(int row, int col, int width, int height)
         {
-            DrawVerticalBorder(row + 1, col, height * 2.5);
-            DrawVerticalBorder(row + 1, col + width - 1, height * 2.5);
-            DrawHorizontalBorder(row, col, width);
-            DrawHorizontalBorder(row + height + 1, col, width);
             // DrawHorizontalBorder(row + 1, col, width);
             //行数， 列数， 线的长度
-
-            DrawHorizontalBorder(row + 2, col, width);
+            DrawVerticalBorder(row + 1, col, height * 2);
+            DrawVerticalBorder(row + 1, col + width - 1, height * 2);
+            DrawHorizontalBorder(row, col, width);
+            DrawHorizontalBorder(row + height, col, width);
+            DrawHorizontalBorder(row + height * 2, col, width);
         }
 
         /**

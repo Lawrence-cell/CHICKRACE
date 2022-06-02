@@ -39,7 +39,7 @@ namespace UNO
             /**
              * Render view when waiting for other players to join.
              */
-            void RenderWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime);
+            void RenderWhenInGame(const std::vector<std::string> &usernames);
 
             /**
              * Render view when game start.

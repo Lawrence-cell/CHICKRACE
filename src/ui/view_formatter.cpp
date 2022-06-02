@@ -69,8 +69,8 @@ namespace UNO
             mPosOfPlayerBox.emplace_back(std::vector<PosT>{
                 PosT{10, 6}, PosT{0, 0}, PosT{0, 32}});
             mPosOfLastPlayedCard.emplace_back(PosT{8, 26});
-            mBaseScaleOfView.emplace_back(ScaleT{16, 54});
-            mPosOfUNOText.emplace_back(PosT{8, 30}); // 8,30
+            mBaseScaleOfView.emplace_back(ScaleT{20, 70}); //方块（三个box）的区域大小
+            mPosOfUNOText.emplace_back(PosT{8, 30});       // 8,30
 
             /**
              * player num is 4
@@ -175,11 +175,11 @@ namespace UNO
         {
             if (playerIndex == 0)
             {
-                return ViewFormatter::ScaleT{5, 42};
+                return ViewFormatter::ScaleT{6, 42};
             }
             else
             {
-                return ViewFormatter::ScaleT{5, 22};
+                return ViewFormatter::ScaleT{6, 22};
             }
         }
 

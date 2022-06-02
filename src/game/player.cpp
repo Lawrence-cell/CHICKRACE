@@ -46,7 +46,10 @@ namespace UNO
             mUIManager->RenderWhenInitWaiting(initUsernames, true);
             for (auto i = 0; i < Common::Common::mPlayerNum - initSize; i++)
             {
+
                 auto joinInfo = Common::Util::Receive<JoinGameInfo>(mClient);
+                //会阻塞 当其他client加入后继续执行
+
                 initUsernames.push_back(joinInfo->mUsername);
                 mUIManager->RenderWhenInitWaiting(initUsernames, false);
             }
@@ -64,11 +67,14 @@ namespace UNO
                           });
 
             mUIManager->RunTimerThread();
+
             GameLoop();
         }
 
         void Player::GameLoop_CR()
         {
+
+            // mUIManager->RenderWhenInGame()
             while (!mGameStat->DoesGameEnd()) //初步设计逻辑是只要有玩家不退出 游戏就一直进行
             {
                 /* code */
@@ -93,6 +99,8 @@ namespace UNO
                     {
                         auto [action, cardIndex] = mUIManager->GetAction(lastCardCanBePlayed,
                                                                          mPlayerStats[0].HasChanceToPlayAfterDraw());
+                        std::vector<std::string> test = {"p1", "p2", "p3"};
+                        mUIManager->RenderWhenInGame(test);
                         switch (action)
                         {
                         case InputAction::PASS:
