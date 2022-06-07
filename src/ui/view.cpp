@@ -9,7 +9,6 @@ namespace UNO
         const std::string View::LAST_PLAYED_STR = "last played: ";
         const std::string View::HAND_CARDS_STR = "handcards: ";
         const std::string View::UNO_STR = "UNO!";
-        const std::string View::WAIT_STR_CR = "WAITING FOR OTHER PLYARS TO JOIN";
 
         View::View()
         {
@@ -341,7 +340,6 @@ namespace UNO
         void View::AlignCenter(int row, int col, int width, const std::string &src)
         {
             int indent = (width - src.size()) / 2;
-
             Copy(row, col + indent, src);
         }
 
