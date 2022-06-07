@@ -85,6 +85,29 @@ namespace UNO
             Print(useCls);
         }
 
+        void UIManager::Render_CR(int single_game_compose_index, bool isFirstInSingleGame)
+        {
+            std::lock_guard<std::mutex> lock(mMutex);
+            // before render, mView should be cleared first
+            if (isFirstInSingleGame)
+            {
+                mView->Clear(true);
+            }
+            else
+            {
+                mView->Clear(false, mGameStat->GetCurrentPlayer());
+                //部分清除
+            }
+            mView->DrawSelfBox(*mGameStat, mPlayerStats[0], *mHandCards, mCursorIndex);
+            for (int i = 1; i < mPlayerStats.size(); i++)
+            {
+                mView->DrawOtherBox(i, *mGameStat, mPlayerStats[i]);
+            }
+            mView->DrawLastPlayedCard(mGameStat->GetLastPlayedCard());
+
+            Print(isFirstInSingleGame);
+        }
+
         void UIManager::NextTurn()
         {
             if (mGameStat->IsMyTurn())
@@ -115,6 +138,10 @@ namespace UNO
                                           mHasChanceToPlayAfterDraw);
                 //打印文字提示内容
             }
+        }
+
+        InputAction UIManager::GetAction_CR()
+        {
         }
 
         std::pair<InputAction, int> UIManager::GetAction(bool lastCardCanBePlayed,

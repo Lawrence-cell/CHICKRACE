@@ -52,9 +52,6 @@ namespace UNO
 
         void View::DrawWhenInGame(const std::vector<std::string> &usernames)
         {
-            auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
-            AlignCenter(7, 0, centerCol - 4, "PREPARE PHASE");
-
             for (int playerIndex = 0; playerIndex < Common::Common::mPlayerNum; playerIndex++)
             {
 
@@ -86,11 +83,16 @@ namespace UNO
             }
         }
 
-        void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
+        void View::DrawPhaseText(std::string phaseText)
         {
             auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
-            AlignCenter(7, 0, centerCol - 4, "WAITING PHASE");
+            // 20,70
+            AlignCenter(centerRow - 13, 0, centerCol - 16, phaseText);
+        }
 
+        void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
+        {
+            DrawPhaseText("WAITTING PHASE");
             if (isFirstTime) // whether this function is first exec or not IN THE SAME CLIENT
             {
                 mMyIndex = usernames.size() - 1;
@@ -147,6 +149,18 @@ namespace UNO
                 //     AlignCenter(row + 1, col, width, usernames[absoluteIndex]);
                 // }
             }
+        }
+
+        //以单个方块为操作对象
+        void View::DrawOtherBox_CR(int playerIndex, const PlayerStat &playerStat)
+        {
+            //需要加入判断：如若收到
+            bool isCurrentPlayer = false;
+            auto [row, col] = ViewFormatter::GetPosOfPlayerBox(playerIndex);
+            auto [height, width] = ViewFormatter::GetBaseScaleOfBox(playerIndex);
+            int singleBlockHeight = height / 2 - 1;
+            DrawBorder(row, col, width, singleBlockHeight);
+            AlignCenter(row + singleBlockHeight + 1, col, width, "CONFIGURING");
         }
 
         void View::DrawOtherBox(int playerIndex, const GameStat &gameStat, const PlayerStat &playerStat)

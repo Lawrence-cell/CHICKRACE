@@ -51,12 +51,15 @@ namespace UNO
              */
             void Render(bool useCls = true);
 
+            void Render_CR(int single_game_compose_index, bool isFisrtInSingleGame = false);
+
             /**
              * Get the player's action.
              */
             std::pair<InputAction, int> GetAction(bool lastCardCanBePlayed,
                                                   bool hasChanceToPlayAfterDraw);
 
+            InputAction GetAction_CR();
             /**
              * Get the specified next color when a 'W' or '+4' is played.
              */

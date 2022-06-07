@@ -75,9 +75,20 @@ namespace UNO
         {
 
             // mUIManager->RenderWhenInGame()
-            while (!mGameStat->DoesGameEnd()) //初步设计逻辑是只要有玩家不退出 游戏就一直进行
+            int single_game_compose_index = 0;    //第几道 也即总共三道， 比较结束后
+            while (single_game_compose_index < 3) // 先实现单次游戏
+            //初步设计逻辑是只要有玩家不退出 游戏就一直进行
             {
-                /* code */
+                mUIManager->Render_CR(single_game_compose_index, true);
+                bool isConfigureCompleted = false;
+                while (!isConfigureCompleted)
+                {
+
+                    //此次循环里只处理一个输入，循环每执行一次，界面刷新一次
+                    // auto action = mUIManager->GetAction_CR();
+                }
+
+                single_game_compose_index++;
             }
         }
 
@@ -91,6 +102,8 @@ namespace UNO
                     // except the condition that having a chance to play immediately after draw
                     if (!mPlayerStats[0].HasChanceToPlayAfterDraw()) //是否有机会出牌
                     {
+                        // mPlayerStats[0]永远都是运行当前客户端的玩家名
+                        //在每一个客户端中 mPlayStat数组不一样，但0索引处永远都是自己
                         mUIManager->NextTurn();
                     }
 

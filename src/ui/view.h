@@ -32,13 +32,16 @@ namespace UNO
 
             void DrawWhenInGame(const std::vector<std::string> &usernames);
 
-            void DrawWhenInitWaiting_CR(const std::vector<std::string> &usernames, bool isFirstTime);
+            // void DrawWhenInitWaiting_CR(const std::vector<std::string> &usernames, bool isFirstTime);
 
             /**
              * Draw a box of other player.
              */
             void DrawOtherBox(int playerIndex, const GameStat &gameStat, const PlayerStat &playerStat);
 
+            void DrawOtherBox_CR(int playerIndex, const PlayerStat &playerStat);
+
+            void DrawPhaseText(std::string phaseText);
             /**
              * Draw the box of player himself.
              */
