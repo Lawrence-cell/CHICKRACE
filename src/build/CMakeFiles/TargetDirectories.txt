@@ -1,3 +1,0 @@
-C:/Users/yangguang/Desktop/UNO/src/build/CMakeFiles/uno.dir
-C:/Users/yangguang/Desktop/UNO/src/build/CMakeFiles/edit_cache.dir
-C:/Users/yangguang/Desktop/UNO/src/build/CMakeFiles/rebuild_cache.dir

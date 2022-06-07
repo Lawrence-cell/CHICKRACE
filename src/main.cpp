@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-05-26 15:46:51
+ * @LastEditTime: 2022-06-07 17:17:25
  * @FilePath: \UNO\src\main.cpp
  * @Description:
  *
@@ -48,11 +48,11 @@ int main(int argc, char **argv)
         std::vector<UNO::UI::PlayerStat> mPlayerStats;
 
         // initusername
-        std::vector<std::string> initUsernames = {"test a", "test b", "test c"};
-        auto mUIManager_CR = std::make_unique<UNO::UI::UIManager_CR>(mGameStat, mPlayerStats, mHandCards);
-        mUIManager_CR->RenderWhenInitWaiting(initUsernames, true, true);
-        system("pause");
-        std::exit(0);
+        // std::vector<std::string> initUsernames = {"test a", "test b", "test c"};
+        // auto mUIManager_CR = std::make_unique<UNO::UI::UIManager_CR>(mGameStat, mPlayerStats, mHandCards);
+        // mUIManager_CR->RenderWhenInitWaiting(initUsernames, true, true);
+        // system("pause");
+        // std::exit(0);
     }
 
     if (configInfo->mIsServer)

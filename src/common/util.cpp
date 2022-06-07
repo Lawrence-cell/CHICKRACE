@@ -2,11 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
-<<<<<<< HEAD
- * @LastEditTime: 2022-05-26 18:48:10
-=======
  * @LastEditTime: 2022-05-22 18:37:07
->>>>>>> llq
  * @FilePath: \UNO\src\common\util.cpp
  * @Description:
  *
