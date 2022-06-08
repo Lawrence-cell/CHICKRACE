@@ -68,7 +68,7 @@ namespace UNO
 
             mUIManager->RunTimerThread();
 
-            GameLoop();
+            GameLoop_CR();
         }
 
         void Player::GameLoop_CR()

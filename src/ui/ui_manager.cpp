@@ -114,7 +114,7 @@ namespace UNO
             if (isFirstInSingleGame)
             {
                 mView->Clear(true);
-                mView->DrawPhaseText("CONFIGURING PAHSE");
+                mView->DrawPhaseText("CONFIGURING PHASE");
             }
             else
             {
@@ -183,6 +183,7 @@ namespace UNO
             {
                 Render_CR(single_game_compose_index);
                 InputAction action;
+                ResetTimeLeft();
                 ExecuteWithTimePassing([this, &action]
                                        { action = mInputter->GetAction(mTimeLeft); });
                 switch (action)
