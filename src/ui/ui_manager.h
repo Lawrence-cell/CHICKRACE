@@ -53,13 +53,15 @@ namespace UNO
 
             void Render_CR(int single_game_compose_index, bool isFisrtInSingleGame = false);
 
+            void test();
+
             /**
              * Get the player's action.
              */
             std::pair<InputAction, int> GetAction(bool lastCardCanBePlayed,
                                                   bool hasChanceToPlayAfterDraw);
 
-            InputAction GetAction_CR();
+            InputAction GetAction_CR(int single_game_compose_index);
             /**
              * Get the specified next color when a 'W' or '+4' is played.
              */
@@ -84,6 +86,8 @@ namespace UNO
             void TimerThreadLoop();
 
             void Print(bool useCls = true) const;
+
+            void Print_CR(bool useCls = true) const;
 
             void ResetCursor() { MoveCursorTo(0); }
 

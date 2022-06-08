@@ -73,23 +73,26 @@ namespace UNO
 
         void Player::GameLoop_CR()
         {
-
-            // mUIManager->RenderWhenInGame()
+#if 1
             int single_game_compose_index = 0;    //第几道 也即总共三道， 比较结束后
             while (single_game_compose_index < 3) // 先实现单次游戏
             //初步设计逻辑是只要有玩家不退出 游戏就一直进行
             {
                 mUIManager->Render_CR(single_game_compose_index, true);
+
                 bool isConfigureCompleted = false;
                 while (!isConfigureCompleted)
                 {
 
                     //此次循环里只处理一个输入，循环每执行一次，界面刷新一次
-                    // auto action = mUIManager->GetAction_CR();
+                    auto action = mUIManager->GetAction_CR(single_game_compose_index);
                 }
 
                 single_game_compose_index++;
             }
+#else // for test
+            mUIManager->test();
+#endif
         }
 
         void Player::GameLoop()

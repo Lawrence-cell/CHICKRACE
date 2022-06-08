@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-02 10:40:24
+ * @LastEditTime: 2022-06-07 21:57:58
  * @FilePath: \UNO\src\ui\view_formatter.h
  * @Description:
  *
@@ -42,6 +42,8 @@ namespace UNO
 
             static PosT GetPosOfHandCard(int handcardIndex, const Game::HandCards &handcards);
 
+            static PosT GetPosOfHandCard_CR(int handcardIndex, const Game::HandCards &handcards);
+
             static ScaleT GetBaseScaleOfView();
 
             static ScaleT GetMaxScaleOfView();
@@ -55,6 +57,7 @@ namespace UNO
             static std::vector<PosT> mPosOfLastPlayedCard;
             static std::vector<ScaleT> mBaseScaleOfView;
             static std::vector<PosT> mPosOfUNOText;
+            static int single_block_height_mybox;
         };
 
         struct RenderInfo

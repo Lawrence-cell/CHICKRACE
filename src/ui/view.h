@@ -25,6 +25,8 @@ namespace UNO
              */
             void Clear(bool doClearIndicator, int currentPlayer = 0);
 
+            void ClearForRefresh();
+
             /**
              * Draw the whole view when waiting for other players to join.
              */
@@ -39,12 +41,15 @@ namespace UNO
              */
             void DrawOtherBox(int playerIndex, const GameStat &gameStat, const PlayerStat &playerStat);
 
-            void DrawOtherBox_CR(int playerIndex, const PlayerStat &playerStat);
+            void DrawOtherBox_CR(int playerIndex, const GameStat &gameStat, const PlayerStat &playerStat);
 
             void DrawPhaseText(std::string phaseText);
             /**
              * Draw the box of player himself.
              */
+            void DrawSelfBox_CR(const GameStat &gameStat, const PlayerStat &playerStat,
+                                const HandCards &handcards, int cursorIndex, int single_game_compose_index);
+
             void DrawSelfBox(const GameStat &gameStat, const PlayerStat &playerStat,
                              const HandCards &handcards, int cursorIndex);
 
@@ -90,6 +95,8 @@ namespace UNO
             void DrawVerticalBorder(int row, int col, int height);
 
             void DrawHandCards(int row, int col, int width, const HandCards &handcards);
+
+            void DrawHandCards_CR(int row, int col, int width, const HandCards &handcards);
 
             void DrawUNO();
 

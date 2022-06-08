@@ -85,6 +85,28 @@ namespace UNO
             Print(useCls);
         }
 
+        void UIManager::test()
+        {
+            while (true)
+            {
+                mView->Clear(true);
+                InputAction action;
+                ExecuteWithTimePassing([this, &action]
+                                       { action = mInputter->GetAction(mTimeLeft); });
+                switch (action)
+                {
+                case InputAction::CURSOR_MOVE_LEFT:
+                    std::cout << "111" << std::endl;
+                    break;
+                case InputAction::CURSOR_MOVE_RIGHT:
+                    std::cout << "222" << std::endl;
+                    break;
+
+                default:
+                    break;
+                }
+            }
+        }
         void UIManager::Render_CR(int single_game_compose_index, bool isFirstInSingleGame)
         {
             std::lock_guard<std::mutex> lock(mMutex);
@@ -92,20 +114,21 @@ namespace UNO
             if (isFirstInSingleGame)
             {
                 mView->Clear(true);
+                mView->DrawPhaseText("CONFIGURING PAHSE");
             }
             else
             {
-                mView->Clear(false, mGameStat->GetCurrentPlayer());
+                mView->ClearForRefresh();
                 //部分清除
+                //不用刷新的不清除
             }
-            mView->DrawSelfBox(*mGameStat, mPlayerStats[0], *mHandCards, mCursorIndex);
+            mView->DrawSelfBox_CR(*mGameStat, mPlayerStats[0], *mHandCards, mCursorIndex, single_game_compose_index);
             for (int i = 1; i < mPlayerStats.size(); i++)
             {
-                mView->DrawOtherBox(i, *mGameStat, mPlayerStats[i]);
+                mView->DrawOtherBox_CR(i, *mGameStat, mPlayerStats[i]);
             }
-            mView->DrawLastPlayedCard(mGameStat->GetLastPlayedCard());
 
-            Print(isFirstInSingleGame);
+            Print_CR(isFirstInSingleGame);
         }
 
         void UIManager::NextTurn()
@@ -119,6 +142,20 @@ namespace UNO
 
             std::lock_guard<std::mutex> lock(mMutex);
             mView->Clear(true);
+        }
+
+        void UIManager::Print_CR(bool useCls) const
+        {
+            // get value only once, for atomicity
+
+            mView->DrawSelfTimeIndicatorIfNot();
+
+            mOutputter->PrintView(*mView, useCls);
+            //打印boxes
+
+            mOutputter->PrintHintText(mIsSpecifyingNextColor, true,
+                                      true);
+            //打印文字提示内容
         }
 
         void UIManager::Print(bool useCls) const
@@ -140,8 +177,38 @@ namespace UNO
             }
         }
 
-        InputAction UIManager::GetAction_CR()
+        InputAction UIManager::GetAction_CR(int single_game_compose_index)
         {
+            while (true)
+            {
+                Render_CR(single_game_compose_index);
+                InputAction action;
+                ExecuteWithTimePassing([this, &action]
+                                       { action = mInputter->GetAction(mTimeLeft); });
+                switch (action)
+                {
+                case InputAction::READY:
+                    return InputAction::READY;
+                    break;
+                case InputAction::CURSOR_MOVE_LEFT:
+                {
+
+                    // mCursorIndex = Common::Util::Wrap(mCursorIndex - 1,
+                    //                                   mPlayerStats[0].GetRemainingHandCardsNum());
+                    mCursorIndex = Common::Util::Wrap(mCursorIndex - 1, 9);
+                    break;
+                }
+                case InputAction::CURSOR_MOVE_RIGHT:
+                {
+
+                    mCursorIndex = Common::Util::Wrap(mCursorIndex + 1, 9);
+
+                    break;
+                default:
+                    assert(0);
+                }
+                }
+            }
         }
 
         std::pair<InputAction, int> UIManager::GetAction(bool lastCardCanBePlayed,
@@ -253,6 +320,5 @@ namespace UNO
             // mTimeLeft shouldn't be negative
             mTimeLeft = std::max(mTimeLeft, 0);
         }
-
     }
 }

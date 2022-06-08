@@ -22,6 +22,27 @@ namespace UNO
             Clear(true);
         }
 
+        void View::ClearForRefresh()
+        {
+            std::vector<int> rowNumToClear;
+            auto [row, col] = ViewFormatter::GetPosOfPlayerBox(0);
+            int singleBlockHeight = ViewFormatter::GetSingleHeightofBox();
+            for (int i = 0; i < 4; i++)
+            {
+                rowNumToClear.emplace_back(row + 1 + singleBlockHeight + singleBlockHeight * i);
+            }
+            for (int row = 0; row < mView.size(); row++)
+            {
+                if (std::find(rowNumToClear.begin(), rowNumToClear.end(), row) != rowNumToClear.end())
+                {
+                    for (auto &c : mView[row])
+                    {
+                        c = ' ';
+                    }
+                }
+            }
+        }
+
         void View::Clear(bool doClearIndicator, int currentPlayer)
         {
             int rowNumNotToClear = -1;
@@ -86,6 +107,7 @@ namespace UNO
         {
             auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
             // 20,70
+            // std::cout << "runing" << std::endl;
             AlignCenter(centerRow - 13, 0, centerCol - 16, phaseText);
         }
 
@@ -151,7 +173,7 @@ namespace UNO
         }
 
         //以单个方块为操作对象
-        void View::DrawOtherBox_CR(int playerIndex, const PlayerStat &playerStat)
+        void View::DrawOtherBox_CR(int playerIndex, const GameStat &gameStat, const PlayerStat &playerStat)
         {
             //需要加入判断：如若收到
             bool isCurrentPlayer = false;
@@ -159,6 +181,7 @@ namespace UNO
             auto [height, width] = ViewFormatter::GetBaseScaleOfBox(playerIndex);
             int singleBlockHeight = height / 2 - 1;
             DrawBorder(row, col, width, singleBlockHeight);
+            AlignCenter(row + 1, col, width, playerStat.GetUsername());
             AlignCenter(row + singleBlockHeight + 1, col, width, "CONFIGURING");
         }
 
@@ -189,6 +212,30 @@ namespace UNO
             {
                 Copy(row + 4, col + 2 + LAST_PLAYED_STR.size(), playerStat.GetLastPlayedCard().ToString());
             }
+        }
+
+        void View::DrawSelfBox_CR(const GameStat &gameStat, const PlayerStat &playerStat,
+                                  const HandCards &handcards, int cursorIndex, int single_game_compose_index)
+        {
+            // playerIndex代表的是哪个方块
+            auto [row, col] = ViewFormatter::GetPosOfPlayerBox(0);
+            auto [height, width] = ViewFormatter::GetBaseScaleOfBox(0);
+            int singleBlockHeight = height / 2 - 1; // 单边block长度为2
+
+            int absoluteIndex = Common::Util::WrapWithPlayerNum(0 + mMyIndex);
+            //取值范围： 0 - 2
+
+            std::string FirstComposeConfig = " __       __        __";
+
+            DrawBorder_InGameMine(row, col, width, singleBlockHeight);
+            DrawHandCards_CR(row + singleBlockHeight, col, width, handcards);
+            AlignCenter(row + 1, col, width, playerStat.GetUsername());
+            AlignCenter(row + 1 + singleBlockHeight * 2, col, width, FirstComposeConfig); //配牌选项 第一道
+            AlignCenter(row + 1 + singleBlockHeight * 3, col, width, FirstComposeConfig); //配牌选项 第二道
+            AlignCenter(row + 1 + singleBlockHeight * 4, col, width, FirstComposeConfig); //配牌选项 第二道
+
+            auto [cardRow, cardCol] = ViewFormatter::GetPosOfHandCard_CR(cursorIndex, handcards);
+            mView[cardRow][cardCol - 1] = '>';
         }
 
         void View::DrawSelfBox(const GameStat &gameStat, const PlayerStat &playerStat,
@@ -253,6 +300,12 @@ namespace UNO
             {
                 Copy(row + 5 + mExtraRowNum, col, indicator);
             }
+        }
+
+        void View::DrawHandCards_CR(int row, int col, int width, const HandCards &handcards)
+        {
+
+            AlignCenter(row + 1, col, width, handcards.ToStringBySegment(0));
         }
 
         void View::DrawHandCards(int row, int col, int width, const HandCards &handcards)

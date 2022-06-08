@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-05-22 18:37:07
+ * @LastEditTime: 2022-06-07 21:52:31
  * @FilePath: \UNO\src\common\util.cpp
  * @Description:
  *
@@ -44,6 +44,7 @@ namespace UNO
         int Util::GetSegmentIndex(int handcardIndex) { return handcardIndex / Common::mHandCardsNumPerRow; }
 
         int Util::GetIndexInSegment(int handcardIndex) { return handcardIndex % Common::mHandCardsNumPerRow; }
+        // handcardindex 0 - 7
 
         char Util::GetCharWithTimeout(int milliseconds, bool autoFlush)
         {

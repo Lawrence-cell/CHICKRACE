@@ -9,10 +9,13 @@ namespace UNO
         std::vector<ViewFormatter::PosT> ViewFormatter::mPosOfLastPlayedCard;
         std::vector<ViewFormatter::ScaleT> ViewFormatter::mBaseScaleOfView;
         std::vector<ViewFormatter::PosT> ViewFormatter::mPosOfUNOText;
+        int ViewFormatter::single_block_height_mybox;
 
         void ViewFormatter::Init()
         {
             // player num is 0
+
+            single_block_height_mybox = 2;
             mPosOfPlayerBox.emplace_back(std::vector<PosT>());
             mPosOfLastPlayedCard.emplace_back(PosT{});
             mBaseScaleOfView.emplace_back(ScaleT{});
@@ -147,6 +150,19 @@ namespace UNO
             return ViewFormatter::PosT{row + 4, col + 15};
         }
 
+        ViewFormatter::PosT ViewFormatter::GetPosOfHandCard_CR(int handcardIndex,
+                                                               const Game::HandCards &handcards)
+        {
+
+            int length = handcards.ToStringBySegment(0).size();
+            int indent = (42 - length) / 2;
+            int indexInSeg = Common::Util::GetIndexInSegment(handcardIndex);
+            auto [row, col] = GetPosOfPlayerBox(0);
+            row += (1 + GetSingleHeightofBox());
+            col += (indent + handcards.LengthBeforeIndexInSegment(0, indexInSeg) + 1);
+            return ViewFormatter::PosT{row, col};
+        }
+
         ViewFormatter::PosT ViewFormatter::GetPosOfHandCard(int handcardIndex,
                                                             const Game::HandCards &handcards)
         {
@@ -185,7 +201,7 @@ namespace UNO
 
         int ViewFormatter::GetSingleHeightofBox()
         {
-            return 1;
+            return single_block_height_mybox;
         }
 
     }
