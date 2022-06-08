@@ -23,7 +23,7 @@ namespace UNO
              * Clear the view. If \param doClearIndicator is true,
              * do not clear the line where \param currentPlayer 's time indicator positioned.
              */
-            void Clear(bool doClearIndicator, int currentPlayer = 0);
+            void Clear(bool para1, int para2 = 0);
 
             void ClearForRefresh();
 
@@ -62,6 +62,8 @@ namespace UNO
              * Draw the time indicator of \param currentPlayer, which has passed \param timeElapsed seconds.
              */
             void DrawTimeIndicator(int currentPlayer, int timeElapsed);
+
+            void DrawTimeIndicator_CR(int timeElapsed);
 
             /**
              * Make sure that if it's my turn, there must be a self time indicator.

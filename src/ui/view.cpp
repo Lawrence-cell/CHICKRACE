@@ -43,29 +43,15 @@ namespace UNO
             }
         }
 
-        void View::Clear(bool doClearIndicator, int currentPlayer)
+        void View::Clear(bool para1, int para2)
         {
-            int rowNumNotToClear = -1;
-            if (!doClearIndicator)
-            {
-                if (currentPlayer != 0)
-                {
-                    rowNumNotToClear = ViewFormatter::GetPosOfPlayerBox(currentPlayer).first + 6;
-                }
-                else
-                {
-                    rowNumNotToClear = ViewFormatter::GetPosOfPlayerBox(0).first + 5 + mExtraRowNum;
-                }
-            }
 
             for (int row = 0; row < mView.size(); row++)
             {
-                if (row != rowNumNotToClear)
+
+                for (auto &c : mView[row])
                 {
-                    for (auto &c : mView[row])
-                    {
-                        c = ' ';
-                    }
+                    c = ' ';
                 }
             }
         }
@@ -108,7 +94,7 @@ namespace UNO
             auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
             // 20,70
             // std::cout << "runing" << std::endl;
-            AlignCenter(centerRow - 13, 0, centerCol - 16, phaseText);
+            AlignCenter(centerRow * 1 / 3, 0, centerCol - 16, phaseText);
         }
 
         void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
@@ -281,6 +267,21 @@ namespace UNO
         {
             auto [row, col] = ViewFormatter::GetPosOfUNOText('U');
             Copy(row, col, UNO_STR);
+        }
+
+        void View::DrawTimeIndicator_CR(int timeElapsed)
+        {
+            std::string indicator(42, ' ');
+            indicator.front() = '*';
+            indicator.back() = '*';
+            indicator.replace(1, timeElapsed, timeElapsed, '=');
+            indicator[timeElapsed + 1] = '>';
+
+            auto [row, col] = ViewFormatter::GetPosOfPlayerBox(0);
+            row--;
+
+            Copy(row, col, indicator);
+            Copy(row, col, indicator);
         }
 
         void View::DrawTimeIndicator(int currentPlayer, int timeElapsed)

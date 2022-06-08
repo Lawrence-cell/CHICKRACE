@@ -38,13 +38,15 @@ namespace UNO
             {
                 mGameStat->Tick();
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                //进度条长度为42 这里的1000代表一格
 
                 std::lock_guard<std::mutex> lock(mMutex);
-                mView->DrawTimeIndicator(mGameStat->GetCurrentPlayer(), mGameStat->GetTimeElapsed());
+                mView->DrawTimeIndicator_CR(mGameStat->GetTimeElapsed());
+                // mView->DrawTimeIndicator_CR(mGameStat->GetCurrentPlayer(), mGameStat->GetTimeElapsed());
                 /// XXX: race condition. it may print before main thread prints first time,
                 /// in which case some states are not initialized yet such as mExtraRowNum of View.
                 /// current workaround: init mExtraRowNum with 0
-                Print(false);
+                Print_CR(false);
             }
         }
 
@@ -148,7 +150,7 @@ namespace UNO
         {
             // get value only once, for atomicity
 
-            mView->DrawSelfTimeIndicatorIfNot();
+            // mView->DrawSelfTimeIndicatorIfNot();
 
             mOutputter->PrintView(*mView, useCls);
             //打印boxes
@@ -205,8 +207,11 @@ namespace UNO
                     mCursorIndex = Common::Util::Wrap(mCursorIndex + 1, 9);
 
                     break;
+
+                case InputAction::PLAY: // ENTER
+                    break;
                 default:
-                    assert(0);
+                    continue;
                 }
                 }
             }

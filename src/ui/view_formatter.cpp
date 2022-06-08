@@ -70,7 +70,7 @@ namespace UNO
              *        +----------------------------------------+
              */
             mPosOfPlayerBox.emplace_back(std::vector<PosT>{
-                PosT{10, 6}, PosT{0, 0}, PosT{0, 32}});
+                PosT{12, 6}, PosT{0, 0}, PosT{0, 32}});
             mPosOfLastPlayedCard.emplace_back(PosT{8, 26});
             mBaseScaleOfView.emplace_back(ScaleT{23, 70}); //方块（三个box）的区域大小
             mPosOfUNOText.emplace_back(PosT{8, 30});       // 8,30
