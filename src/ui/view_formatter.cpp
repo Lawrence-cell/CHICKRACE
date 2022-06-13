@@ -153,13 +153,14 @@ namespace UNO
         ViewFormatter::PosT ViewFormatter::GetPosOfHandCard_CR(int handcardIndex,
                                                                const Game::HandCards &handcards)
         {
-
             int length = handcards.ToStringBySegment(0).size();
-            int indent = (42 - length) / 2;
-            int indexInSeg = Common::Util::GetIndexInSegment(handcardIndex);
+            // length:卡牌字符串的长度
+            int indent = (GetBaseScaleOfBox(0).second - length) / 2;
+            //方框减去
+
             auto [row, col] = GetPosOfPlayerBox(0);
             row += (1 + GetSingleHeightofBox());
-            col += (indent + handcards.LengthBeforeIndexInSegment(0, indexInSeg) + 1);
+            col += (indent + handcards.LengthBeforeIndexInSegment(0, handcardIndex) + 1);
             return ViewFormatter::PosT{row, col};
         }
 

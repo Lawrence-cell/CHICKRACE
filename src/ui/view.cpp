@@ -215,12 +215,16 @@ namespace UNO
 
             DrawBorder_InGameMine(row, col, width, singleBlockHeight);
             DrawHandCards_CR(row + singleBlockHeight, col, width, handcards);
+            // 服务器端： GameBoard::StartGame()
+            // handcard 是在服务器端随机生成 然后 发送info到客户端 UIManagerd的handcard属性
+            //与player的handcard属性相一致
             AlignCenter(row + 1, col, width, playerStat.GetUsername());
             AlignCenter(row + 1 + singleBlockHeight * 2, col, width, FirstComposeConfig); //配牌选项 第一道
             AlignCenter(row + 1 + singleBlockHeight * 3, col, width, FirstComposeConfig); //配牌选项 第二道
             AlignCenter(row + 1 + singleBlockHeight * 4, col, width, FirstComposeConfig); //配牌选项 第二道
 
             auto [cardRow, cardCol] = ViewFormatter::GetPosOfHandCard_CR(cursorIndex, handcards);
+            // cursor index is also the card index
             mView[cardRow][cardCol - 1] = '>';
         }
 
@@ -271,7 +275,7 @@ namespace UNO
 
         void View::DrawTimeIndicator_CR(int timeElapsed)
         {
-            std::string indicator(42, ' ');
+            std::string indicator(ViewFormatter::GetBaseScaleOfBox(0).second, ' ');
             indicator.front() = '*';
             indicator.back() = '*';
             indicator.replace(1, timeElapsed, timeElapsed, '=');

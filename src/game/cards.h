@@ -120,7 +120,7 @@ namespace UNO
         class HandCards
         {
         public:
-            HandCards(const std::array<Card, 7> &cards);
+            HandCards(const std::array<Card, 9> &cards);
 
             /**
              * Draw a list of cards and add them into handcards.
@@ -293,7 +293,7 @@ namespace UNO
             /**
              * Deal 7 cards to each player as the initial handcards.
              */
-            std::vector<std::array<Card, 7>> DealInitHandCards(int playerNum);
+            std::vector<std::array<Card, 9>> DealInitHandCards(int playerNum);
 
             /**
              * Draw a card from deck.

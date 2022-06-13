@@ -63,7 +63,7 @@ namespace UNO
             std::for_each(info->mUsernames.begin(), info->mUsernames.end(),
                           [this](const std::string &username)
                           {
-                              mPlayerStats.emplace_back(username, 7);
+                              mPlayerStats.emplace_back(username, 9);
                           });
 
             mUIManager->RunTimerThread();
