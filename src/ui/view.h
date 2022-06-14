@@ -76,10 +76,13 @@ namespace UNO
              */
             int GetExtraRowNum() const { return mExtraRowNum; }
 
+            void DrawCursur(int row, int col);
+
             /**
              * Get the char in view positioned at \param row in row and \param col in column.
              */
             char At(int row, int col) const { return mView[row][col]; }
+            void Copy(int row, int col, const std::string &src);
 
             friend std::ostream &operator<<(std::ostream &os, const View &view);
 
@@ -103,8 +106,6 @@ namespace UNO
             void DrawUNO();
 
             int GetSelfBoxHeight();
-
-            void Copy(int row, int col, const std::string &src);
 
             void AlignCenter(int row, int col, int width, const std::string &src);
 

@@ -64,6 +64,13 @@ namespace UNO
             mOutputter->PrintRawView(*mView);
         }
 
+        void UIManager::RefreshCursur(int cursorIndex, const HandCards &handcards, bool CursurinCardorCompose)
+        {
+            auto [cardRow, cardCol] = ViewFormatter::GetPosOfHandCard_CR(cursorIndex, handcards);
+            // cursor index is also the card index
+            mView->DrawCursur(cardRow, cardCol);
+        }
+
         void UIManager::Render(bool useCls)
         {
             std::lock_guard<std::mutex> lock(mMutex);
@@ -109,7 +116,7 @@ namespace UNO
                 }
             }
         }
-        void UIManager::Render_CR(int single_game_compose_index, bool isFirstInSingleGame)
+        void UIManager::Render_CR(int single_game_compose_index, bool CursurinCardorComposebool, bool isFirstInSingleGame)
         {
             std::lock_guard<std::mutex> lock(mMutex);
             // before render, mView should be cleared first
@@ -129,7 +136,7 @@ namespace UNO
             {
                 mView->DrawOtherBox_CR(i, *mGameStat, mPlayerStats[i]);
             }
-
+            RefreshCursur(mCursorIndex, *mHandCards, CursurinCardorComposebool);
             Print_CR(isFirstInSingleGame);
         }
 
@@ -160,6 +167,18 @@ namespace UNO
             //打印文字提示内容
         }
 
+        void UIManager::HandleEnter()
+
+        {
+            // compose类
+            Card cardToPlay = mHandCards->At(mCursorIndex);
+            mHandCards->Erase(mCursorIndex);
+            std::string cardStr = cardToPlay.ToString();
+            auto [row, col] = ViewFormatter::GetPosOfCardBlacks(mCursorIndexinCompose);
+            mView->Copy(row, col, cardStr);
+            mCursorIndex++;
+        }
+
         void UIManager::Print(bool useCls) const
         {
             // get value only once, for atomicity
@@ -181,9 +200,10 @@ namespace UNO
 
         InputAction UIManager::GetAction_CR(int single_game_compose_index)
         {
+            bool CursurinCardorCompose = 1;
             while (true)
             {
-                Render_CR(single_game_compose_index);
+                Render_CR(single_game_compose_index, CursurinCardorCompose);
                 InputAction action;
                 ResetTimeLeft();
                 ExecuteWithTimePassing([this, &action]
@@ -208,7 +228,9 @@ namespace UNO
 
                     break;
 
-                case InputAction::PLAY: // ENTER
+                case InputAction::ENTER: // ENTER
+                    CursurinCardorCompose = false;
+                    HandleEnter();
                     break;
                 default:
                     continue;
@@ -252,10 +274,10 @@ namespace UNO
                     }
                     break;
                 }
-                case InputAction::PLAY:
+                case InputAction::ENTER:
                 {
                     int cardIndex = (!hasChanceToPlayAfterDraw) ? mCursorIndex : (mPlayerStats[0].GetIndexOfNewlyDrawn());
-                    return std::make_pair(InputAction::PLAY, cardIndex);
+                    return std::make_pair(InputAction::ENTER, cardIndex);
                 }
                 case InputAction::PASS:
                 {

@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-08 01:01:35
+ * @LastEditTime: 2022-06-15 00:09:57
  * @FilePath: \UNO\src\main.cpp
  * @Description:
  *
@@ -20,6 +20,7 @@
 #include "network/client.h"
 #include "game/game_board.h"
 #include "game/player.h"
+#include "game/composes.h"
 #include "common/util.h"
 #include "common/config.h"
 #include "CR/ui_manager_CR.h"
@@ -38,18 +39,32 @@ int main(int argc, char **argv)
 
     if (configInfo->test_mode)
     {
-        std::cout << "ui test begin";
-        std::unique_ptr<UNO::UI::HandCards> mHandCards;
+        std::cout << "compose test begin" << std::endl;
+        // std::unique_ptr<UNO::UI::HandCards> mHandCards;
 
-        // state of game board
-        std::unique_ptr<UNO::UI::GameStat> mGameStat;
+        // // state of game board
+        // std::unique_ptr<UNO::UI::GameStat> mGameStat;
 
-        // state of all players
-        std::vector<UNO::UI::PlayerStat> mPlayerStats;
+        // // state of all players
+        // std::vector<UNO::UI::PlayerStat> mPlayerStats;
 
-        std::vector<std::string> initUsernames = {"test a", "test b", "test c"};
-        auto mUIManager = std::make_unique<UNO::UI::UIManager>(mGameStat, mPlayerStats, mHandCards);
-        mUIManager->test();
+        // std::vector<std::string> initUsernames = {"test a", "test b", "test c"};
+        // auto mUIManager = std::make_unique<UNO::UI::UIManager>(mGameStat, mPlayerStats, mHandCards);
+        // mUIManager->test();
+        Game::Compose mCompose;
+        // auto mCompose = new Game::Compose();
+        auto card1 = new Game::Card(Game::CardColor::RED, Game::CardText::ONE);
+        auto card2 = new Game::Card(Game::CardColor::RED, Game::CardText::FIVE);
+        auto card3 = new Game::Card(Game::CardColor::RED, Game::CardText::FOUR);
+        std::vector<Game::Card> cardlist;
+        // cardlist.emplace_back(*card1);
+        // cardlist.emplace_back(*card1);
+        // cardlist.emplace_back(*card1);
+
+        mCompose.AddCard(*card1);
+        mCompose.AddCard(*card2);
+        mCompose.AddCard(*card3);
+        mCompose.print();
     }
 
     if (configInfo->mIsServer)

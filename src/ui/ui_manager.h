@@ -51,7 +51,7 @@ namespace UNO
              */
             void Render(bool useCls = true);
 
-            void Render_CR(int single_game_compose_index, bool isFisrtInSingleGame = false);
+            void Render_CR(int single_game_compose_index, bool CursurinCardorComposebool, bool isFisrtInSingleGame = false);
 
             void test();
 
@@ -82,6 +82,14 @@ namespace UNO
              */
             void MoveCursorTo(int index) { mCursorIndex = index; }
 
+            /**
+             * To know other info, find HandlePlay() function.
+             * Handle the keyboard input "enter" by \param index.
+             */
+            void HandleEnter();
+
+            void RefreshCursur(int cursorIndex, const HandCards &handcards, bool CursurinCardorCompose);
+
         private:
             void TimerThreadLoop();
 
@@ -106,6 +114,7 @@ namespace UNO
             std::vector<PlayerStat> &mPlayerStats;
             std::unique_ptr<HandCards> &mHandCards;
             int mCursorIndex{0};
+            int mCursorIndexinCompose{0};
             int mTimeLeft; // in milliseconds
 
             std::unique_ptr<std::thread> mTimerThread;

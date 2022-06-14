@@ -9,6 +9,7 @@ namespace UNO
         std::vector<ViewFormatter::PosT> ViewFormatter::mPosOfLastPlayedCard;
         std::vector<ViewFormatter::ScaleT> ViewFormatter::mBaseScaleOfView;
         std::vector<ViewFormatter::PosT> ViewFormatter::mPosOfUNOText;
+        std::vector<std::vector<ViewFormatter::PosT>> ViewFormatter::mPosOfCardBlanks;
         int ViewFormatter::single_block_height_mybox;
 
         void ViewFormatter::Init()
@@ -20,11 +21,13 @@ namespace UNO
             mPosOfLastPlayedCard.emplace_back(PosT{});
             mBaseScaleOfView.emplace_back(ScaleT{});
             mPosOfUNOText.emplace_back(PosT{});
+            mPosOfCardBlanks.emplace_back(std::vector<PosT>());
 
             // player num is 1
             mPosOfPlayerBox.emplace_back(std::vector<PosT>());
             mPosOfLastPlayedCard.emplace_back(PosT{});
             mBaseScaleOfView.emplace_back(ScaleT{});
+            mPosOfCardBlanks.emplace_back(std::vector<PosT>());
             mPosOfUNOText.emplace_back(PosT{});
 
             /**
@@ -47,6 +50,8 @@ namespace UNO
              */
             mPosOfPlayerBox.emplace_back(std::vector<PosT>{
                 PosT{10, 0}, PosT{0, 10}});
+            mPosOfCardBlanks.emplace_back(std::vector<PosT>{
+                PosT{10, 0}, PosT{0, 10}}); // unset
             mPosOfLastPlayedCard.emplace_back(PosT{8, 20});
             mBaseScaleOfView.emplace_back(ScaleT{16, 42});
             mPosOfUNOText.emplace_back(PosT{8, 24});
@@ -71,6 +76,10 @@ namespace UNO
              */
             mPosOfPlayerBox.emplace_back(std::vector<PosT>{
                 PosT{12, 6}, PosT{0, 0}, PosT{0, 32}});
+            mPosOfCardBlanks.emplace_back(std::vector<PosT>{
+                PosT{15, 21}, PosT{15, 31}, PosT{15, 41},
+                PosT{17, 21}, PosT{17, 31}, PosT{17, 41},
+                PosT{19, 21}, PosT{19, 31}, PosT{19, 41}});
             mPosOfLastPlayedCard.emplace_back(PosT{8, 26});
             mBaseScaleOfView.emplace_back(ScaleT{23, 70}); //方块（三个box）的区域大小
             mPosOfUNOText.emplace_back(PosT{8, 30});       // 8,30
@@ -113,6 +122,11 @@ namespace UNO
         ViewFormatter::PosT ViewFormatter::GetPosOfPlayerBox(int player)
         {
             return mPosOfPlayerBox[Common::Common::mPlayerNum][player];
+        }
+
+        ViewFormatter::PosT ViewFormatter::GetPosOfCardBlacks(int playerIndex)
+        {
+            return mPosOfCardBlanks[Common::Common::mPlayerNum][playerIndex];
         }
 
         ViewFormatter::PosT ViewFormatter::GetPosOfLastPlayedCard()

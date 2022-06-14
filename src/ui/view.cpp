@@ -171,6 +171,11 @@ namespace UNO
             AlignCenter(row + singleBlockHeight + 1, col, width, "CONFIGURING");
         }
 
+        void View::DrawCursur(int row, int col)
+        {
+            mView[row][col - 1] = '>';
+        }
+
         void View::DrawOtherBox(int playerIndex, const GameStat &gameStat, const PlayerStat &playerStat)
         {
             bool isCurrentPlayer = false;
@@ -222,10 +227,6 @@ namespace UNO
             AlignCenter(row + 1 + singleBlockHeight * 2, col, width, FirstComposeConfig); //配牌选项 第一道
             AlignCenter(row + 1 + singleBlockHeight * 3, col, width, FirstComposeConfig); //配牌选项 第二道
             AlignCenter(row + 1 + singleBlockHeight * 4, col, width, FirstComposeConfig); //配牌选项 第二道
-
-            auto [cardRow, cardCol] = ViewFormatter::GetPosOfHandCard_CR(cursorIndex, handcards);
-            // cursor index is also the card index
-            mView[cardRow][cardCol - 1] = '>';
         }
 
         void View::DrawSelfBox(const GameStat &gameStat, const PlayerStat &playerStat,

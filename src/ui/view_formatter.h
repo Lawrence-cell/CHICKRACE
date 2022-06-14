@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-07 21:57:58
+ * @LastEditTime: 2022-06-14 00:38:54
  * @FilePath: \UNO\src\ui\view_formatter.h
  * @Description:
  *
@@ -32,6 +32,8 @@ namespace UNO
 
             static PosT GetPosOfPlayerBox(int playerIndex);
 
+            static PosT GetPosOfCardBlacks(int playerIndex);
+
             static PosT GetPosOfPlayerBox_CR(int playerIndex);
 
             static PosT GetPosOfLastPlayedCard();
@@ -57,6 +59,7 @@ namespace UNO
             static std::vector<PosT> mPosOfLastPlayedCard;
             static std::vector<ScaleT> mBaseScaleOfView;
             static std::vector<PosT> mPosOfUNOText;
+            static std::vector<std::vector<PosT>> mPosOfCardBlanks;
             static int single_block_height_mybox;
         };
 

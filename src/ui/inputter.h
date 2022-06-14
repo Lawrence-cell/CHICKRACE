@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-07 00:37:57
+ * @LastEditTime: 2022-06-13 23:41:09
  * @FilePath: \UNO\src\ui\inputter.h
  * @Description:
  *
@@ -25,7 +25,7 @@ namespace UNO
         {
             CURSOR_MOVE_LEFT,
             CURSOR_MOVE_RIGHT,
-            PLAY,
+            ENTER,
             PASS, // skip or draw
             QUIT,
             NUM1,

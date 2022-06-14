@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-07 00:49:10
+ * @LastEditTime: 2022-06-14 00:18:38
  * @FilePath: \UNO\src\ui\inputter.cpp
  * @Description:
  *
@@ -41,7 +41,7 @@ namespace UNO
                     return InputAction::PLAY;
 #elif defined(_WIN32)
                 case '\r':
-                    return InputAction::PLAY;
+                    return InputAction::ENTER;
 #endif
                 case ' ':
                     return InputAction::PASS;

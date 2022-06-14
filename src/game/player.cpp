@@ -133,7 +133,7 @@ namespace UNO
                             actionSuccess = true;
                             break;
                         }
-                        case InputAction::PLAY:
+                        case InputAction::ENTER:
                         {
                             actionSuccess = HandleSelfPlay(cardIndex);
                             // if action succeeded, ok, nothing happens.
