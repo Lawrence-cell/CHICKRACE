@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-14 00:18:38
+ * @LastEditTime: 2022-06-15 17:06:39
  * @FilePath: \UNO\src\ui\inputter.cpp
  * @Description:
  *
@@ -83,15 +83,15 @@ namespace UNO
                 case 'R':
                 case 'r':
                     return Game::CardColor::RED;
-                case 'Y':
-                case 'y':
-                    return Game::CardColor::YELLOW;
-                case 'G':
-                case 'g':
-                    return Game::CardColor::GREEN;
                 case 'B':
                 case 'b':
-                    return Game::CardColor::BLUE;
+                    return Game::CardColor::BLACK;
+                case 'F':
+                case 'f':
+                    return Game::CardColor::FLOWER;
+                case 'S':
+                case 's':
+                    return Game::CardColor::SQUARE;
                 }
             }
         }

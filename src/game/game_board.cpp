@@ -65,24 +65,24 @@ namespace UNO
 
             // flip a card
             Card flippedCard;
-            while (true)
-            {
-                flippedCard = mDeck->Draw();
-                if (flippedCard.mColor == CardColor::BLACK)
-                {
-                    // if the flipped card is a wild card, put it to under the deck and flip a new one
-                    mDeck->PutToBottom(flippedCard);
-                }
-                else
-                {
-                    if (CardSet::DrawTexts.count(flippedCard.mText))
-                    {
-                        // last played card will become EMPTY if the flipped card is `Draw` card
-                        flippedCard.mText = CardText::EMPTY;
-                    }
-                    break;
-                }
-            }
+            // while (true)
+            // {
+            //     flippedCard = mDeck->Draw();
+            //     if (flippedCard.mColor == CardColor::BLACK)
+            //     {
+            //         // if the flipped card is a wild card, put it to under the deck and flip a new one
+            //         mDeck->PutToBottom(flippedCard);
+            //     }
+            //     else
+            //     {
+            //         if (CardSet::DrawTexts.count(flippedCard.mText))
+            //         {
+            //             // last played card will become EMPTY if the flipped card is `Draw` card
+            //             flippedCard.mText = CardText::JOKER;
+            //         }
+            //         break;
+            //     }
+            // }
 
             // choose the first player randomly
             std::srand(std::time(nullptr));

@@ -21,18 +21,16 @@ namespace UNO
 
         enum class CardColor : uint8_t
         {
+            BLACK,
             RED,
-            YELLOW,
-            GREEN,
-            BLUE,
-            BLACK
+            FLOWER,
+            SQUARE
         };
         std::ostream &operator<<(std::ostream &os, const CardColor &color);
 
         enum class CardText : uint8_t
         {
-            ZERO,
-            ONE,
+            ACE,
             TWO,
             THREE,
             FOUR,
@@ -41,12 +39,10 @@ namespace UNO
             SEVEN,
             EIGHT,
             NINE,
-            SKIP,
-            REVERSE,
-            DRAW_TWO,
-            WILD,
-            DRAW_FOUR,
-            EMPTY
+            TEN,
+            JOKER,
+            QUEEN,
+            KING
             /**
              * EMPTY is for conditions like:
              *   1. in the game start, the flipped card is yellow +2,
@@ -62,11 +58,10 @@ namespace UNO
         /**
          * Some special sets of \c CardColor or \c CardText.
          */
-        struct CardSet //没写
+        struct CardSet
         {
-            const static std::set<CardColor> NonWildColors;
-            const static std::set<CardText> NonWildTexts;
-            const static std::set<CardText> DrawTexts;
+            const static std::set<CardColor> Colors;
+            const static std::set<CardText> Texts;
         };
 
         struct Card

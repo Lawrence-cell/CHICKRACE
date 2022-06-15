@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-11 20:05:44
+ * @LastEditTime: 2022-06-15 22:34:44
  * @FilePath: \UNO\src\game\cards.cpp
  * @Description:
  *
@@ -15,15 +15,13 @@ namespace UNO
     namespace Game
     {
 
-        const std::set<CardColor> CardSet::NonWildColors =
-            {CardColor::RED, CardColor::YELLOW, CardColor::GREEN, CardColor::BLUE};
+        const std::set<CardColor> CardSet::Colors =
+            {CardColor::RED, CardColor::BLACK, CardColor::FLOWER, CardColor::SQUARE};
 
-        const std::set<CardText> CardSet::NonWildTexts =
-            {CardText::ZERO, CardText::ONE, CardText::TWO, CardText::THREE, CardText::FOUR,
+        const std::set<CardText> CardSet::Texts =
+            {CardText::ACE, CardText::TWO, CardText::THREE, CardText::FOUR,
              CardText::FIVE, CardText::SIX, CardText::SEVEN, CardText::EIGHT, CardText::NINE,
-             CardText::SKIP, CardText::REVERSE, CardText::DRAW_TWO};
-
-        const std::set<CardText> CardSet::DrawTexts = {CardText::DRAW_TWO, CardText::DRAW_FOUR};
+             CardText::TEN, CardText::JOKER, CardText::QUEEN, CardText::KING};
 
         HandCards::HandCards(const std::array<Card, 9> &cards)
         {
@@ -44,7 +42,7 @@ namespace UNO
             assert(index < mCards.size());
             Card cardToPlay = At(index);
             bool isUno = (mCards.size() == 1);
-            return cardToPlay.CanBePlayedAfter(lastPlayedCard, isUno);
+            return false;
         }
 
         void HandCards::Erase(int index)
@@ -79,68 +77,55 @@ namespace UNO
             return handcardsBeforeDraw.Number();
         }
 
-        bool Card::CanBePlayedAfter(Card lastPlayedCard, bool isUno)
-        {
-            std::set<CardText> specialTexts{CardText::SKIP, CardText::REVERSE,
-                                            CardText::DRAW_TWO, CardText::WILD, CardText::DRAW_FOUR};
+        // bool Card::CanBePlayedAfter(Card lastPlayedCard, bool isUno)
+        // {
+        //     std::set<CardText> specialTexts{CardText::SKIP, CardText::REVERSE,
+        //                                     CardText::DRAW_TWO, CardText::WILD, CardText::DRAW_FOUR};
 
-            // special cards can not be played as the last one
-            if (isUno && specialTexts.count(mText))
-            {
-                return false;
-            }
+        //     // special cards can not be played as the last one
+        //     if (isUno && specialTexts.count(mText))
+        //     {
+        //         return false;
+        //     }
 
-            // if the last played card is skip, you can only play a skip
-            if (lastPlayedCard.mText == CardText::SKIP)
-            {
-                return mText == CardText::SKIP;
-            }
+        //     // if the last played card is skip, you can only play a skip
+        //     if (lastPlayedCard.mText == CardText::SKIP)
+        //     {
+        //         return mText == CardText::SKIP;
+        //     }
 
-            // if the last played card is draw two, you can only play a draw two or draw four
-            if (lastPlayedCard.mText == CardText::DRAW_TWO)
-            {
-                return (mText == CardText::DRAW_TWO || mText == CardText::DRAW_FOUR);
-            }
+        //     // if the last played card is draw two, you can only play a draw two or draw four
+        //     if (lastPlayedCard.mText == CardText::DRAW_TWO)
+        //     {
+        //         return (mText == CardText::DRAW_TWO || mText == CardText::DRAW_FOUR);
+        //     }
 
-            // if the last played card is draw four, you can only play a draw four
-            if (lastPlayedCard.mText == CardText::DRAW_FOUR)
-            {
-                return mText == CardText::DRAW_FOUR;
-            }
+        //     // if the last played card is draw four, you can only play a draw four
+        //     if (lastPlayedCard.mText == CardText::DRAW_FOUR)
+        //     {
+        //         return mText == CardText::DRAW_FOUR;
+        //     }
 
-            // wild card can always be played except above conditions
-            if (mColor == CardColor::BLACK)
-            {
-                return true;
-            }
+        //     // wild card can always be played except above conditions
+        //     if (mColor == CardColor::BLACK)
+        //     {
+        //         return true;
+        //     }
 
-            // if not wild card, only cards with the same num or color can be played
-            return (mColor == lastPlayedCard.mColor || mText == lastPlayedCard.mText);
-        }
+        //     // if not wild card, only cards with the same num or color can be played
+        //     return (mColor == lastPlayedCard.mColor || mText == lastPlayedCard.mText);
+        // }
 
         void Deck::Init()
         {
             this->Clear();
             mDiscardPile.Clear();
-            for (auto color : CardSet::NonWildColors)
+            for (auto color : CardSet::Colors)
             {
-                for (auto text : CardSet::NonWildTexts)
+                for (auto text : CardSet::Texts)
                 {
                     PushFront(color, text);
-                    if (text != CardText::ZERO)
-                    {
-                        // in UNO, there is only one zero for each color
-                        // and two cards for other text (except wild and wild draw four)
-                        PushFront(color, text);
-                    }
                 }
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                // there are four `wild` and `wild draw four` each
-                PushFront(CardColor::BLACK, CardText::WILD);
-                PushFront(CardColor::BLACK, CardText::DRAW_FOUR);
             }
 
             Shuffle();
@@ -191,16 +176,16 @@ namespace UNO
                 mColor = CardColor::RED;
                 str++;
                 break;
-            case 'Y':
-                mColor = CardColor::YELLOW;
-                str++;
-                break;
-            case 'G':
-                mColor = CardColor::GREEN;
-                str++;
-                break;
             case 'B':
-                mColor = CardColor::BLUE;
+                mColor = CardColor::BLACK;
+                str++;
+                break;
+            case 'F':
+                mColor = CardColor::FLOWER;
+                str++;
+                break;
+            case 'S':
+                mColor = CardColor::SQUARE;
                 str++;
                 break;
             default:
@@ -209,12 +194,17 @@ namespace UNO
 
             switch (*str)
             {
-            case '0':
-                mText = CardText::ZERO;
-                break;
             case '1':
-                mText = CardText::ONE;
-                break;
+                if (*(str + 1) == '\0')
+                {
+                    mText = CardText::ACE;
+                    break;
+                }
+                else
+                {
+                    mText = CardText::TEN;
+                    break;
+                }
             case '2':
                 mText = CardText::TWO;
                 break;
@@ -239,20 +229,14 @@ namespace UNO
             case '9':
                 mText = CardText::NINE;
                 break;
-            case 'S':
-                mText = CardText::SKIP;
+            case 'J':
+                mText = CardText::JOKER;
                 break;
-            case 'R':
-                mText = CardText::REVERSE;
+            case 'Q':
+                mText = CardText::QUEEN;
                 break;
-            case 'W':
-                mText = CardText::WILD;
-                break;
-            case '+':
-                mText = (*(str + 1) == '2') ? CardText::DRAW_TWO : CardText::DRAW_FOUR;
-                break;
-            case '\0':
-                mText = CardText::EMPTY;
+            case 'K':
+                mText = CardText::KING;
                 break;
             default:
                 assert(0);
@@ -269,17 +253,14 @@ namespace UNO
             case CardColor::RED:
                 color = "R";
                 break;
-            case CardColor::YELLOW:
-                color = "Y";
-                break;
-            case CardColor::GREEN:
-                color = "G";
-                break;
-            case CardColor::BLUE:
+            case CardColor::BLACK:
                 color = "B";
                 break;
-            case CardColor::BLACK:
-                color = "";
+            case CardColor::FLOWER:
+                color = "F";
+                break;
+            case CardColor::SQUARE:
+                color = "S";
                 break;
             default:
                 assert(0);
@@ -287,11 +268,8 @@ namespace UNO
 
             switch (mText)
             {
-            case CardText::ZERO:
-                text = "0";
-                break;
-            case CardText::ONE:
-                text = "1";
+            case CardText::ACE:
+                text = "A";
                 break;
             case CardText::TWO:
                 text = "2";
@@ -317,23 +295,17 @@ namespace UNO
             case CardText::NINE:
                 text = "9";
                 break;
-            case CardText::SKIP:
-                text = "S";
+            case CardText::TEN:
+                text = "10";
                 break;
-            case CardText::REVERSE:
-                text = "R";
+            case CardText::JOKER:
+                text = "J";
                 break;
-            case CardText::DRAW_TWO:
-                text = "+2";
+            case CardText::QUEEN:
+                text = "Q";
                 break;
-            case CardText::WILD:
-                text = "W";
-                break;
-            case CardText::DRAW_FOUR:
-                text = "+4";
-                break;
-            case CardText::EMPTY:
-                text = "";
+            case CardText::KING:
+                text = "K";
                 break;
             default:
                 assert(0);
@@ -346,7 +318,7 @@ namespace UNO
         {
             int length = 0;
             length += (mColor == CardColor::BLACK ? 0 : 1);
-            length += (!CardSet::DrawTexts.count(mText) ? 1 : 2);
+            length += (mText == CardText::TEN ? 2 : 1);
             return length;
         }
 
@@ -407,12 +379,12 @@ namespace UNO
             {
             case 'R':
                 return CardColor::RED;
-            case 'Y':
-                return CardColor::YELLOW;
-            case 'G':
-                return CardColor::GREEN;
             case 'B':
-                return CardColor::BLUE;
+                return CardColor::BLACK;
+            case 'F':
+                return CardColor::FLOWER;
+            case 'S':
+                return CardColor::SQUARE;
             }
             assert(0);
         }
@@ -431,14 +403,14 @@ namespace UNO
             case CardColor::RED:
                 colorStr = "RED";
                 break;
-            case CardColor::YELLOW:
-                colorStr = "YELLOW";
+            case CardColor::BLACK:
+                colorStr = "BLACK";
                 break;
-            case CardColor::GREEN:
-                colorStr = "GREEN";
+            case CardColor::FLOWER:
+                colorStr = "FLOWER";
                 break;
-            case CardColor::BLUE:
-                colorStr = "BLUE";
+            case CardColor::SQUARE:
+                colorStr = "SQUARE";
                 break;
             default:
                 assert(0);

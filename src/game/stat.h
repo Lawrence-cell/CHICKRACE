@@ -27,7 +27,7 @@ public:
 
     bool IsMyTurn() const { return mCurrentPlayer == 0; }
 
-    bool IsSkipped() const { return mLastPlayedCard.mText == CardText::SKIP; }
+    bool IsSkipped() const { return mLastPlayedCard.mText == CardText::TEN; }
 
     int GetCurrentPlayer() const { return mCurrentPlayer; }
 

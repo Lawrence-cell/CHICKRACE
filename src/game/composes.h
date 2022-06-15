@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-15 16:08:25
+ * @LastEditTime: 2022-06-16 01:39:47
  * @FilePath: \UNO\src\game\composes.h
  * @Description:
  *
@@ -53,29 +53,32 @@ namespace UNO
              */
             void print();
 
-            void CalculateRank();
+            /**
+             * according to the cards combination to determine the rank
+             * @return {*}
+             */
+            void CalculateTotalPoint();
 
-            int *GetRank() { return mRank; };
+            void SetRank(int r1, int r2, int r3);
+
+            std::array<int, 3> GetRank() { return mRank; };
+
+            int GetTotalPoint() { return totalPoint; }
+            template <typename T>
+            void ReArrange(std::vector<T> &mSquence, int index1, int index2, int index3);
 
             friend class mSortStandard;
 
         private:
             std::vector<Card> mCompose;
-            int mRank[3] = {0, 0, 0};
-        };
-
-        struct Composes
-        {
-
-            std::multiset<Compose, mSortStandard> mComposes;
-
-            Composes();
-            Composes(std::vector<Compose> composes);
-
-            void Sort();
-
-            template <typename T>
-            void ReArrange(std::vector<T> &mSquence, int index1, int index2, int index3);
+            std::array<int, 3> mRank;
+            int totalPoint;
+            // compose1 [1,2,3]
+            // 1: [1-6] 2:[1-13] 3 : [1- 4]
+            // k1 k2 k3
+            // k3 =1 , k2 = 4
+            // compose2 [1,3,4]
+            // compose3 [2 ,3, 4]
         };
 
         class mSortStandard
@@ -99,6 +102,26 @@ namespace UNO
                     return (a1.mRank[0]) < (a2.mRank[0]);
                 }
             }
+            friend class Composes;
+        };
+
+        class Composes
+        {
+        public:
+            Composes();
+            Composes(std::vector<Compose *> composes) : mComposes(composes){};
+
+            void Sort();
+
+            std::vector<Compose *> GetComposes()
+            {
+                return mComposes;
+            }
+
+            void Print();
+
+        private:
+            std::vector<Compose *> mComposes;
         };
 
     } // namespace gna
