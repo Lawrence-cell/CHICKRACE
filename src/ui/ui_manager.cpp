@@ -6,8 +6,8 @@ namespace UNO
     {
 
         UIManager::UIManager(std::unique_ptr<GameStat> &gameStat,
-                             std::vector<PlayerStat> &playerStats, std::unique_ptr<HandCards> &handCards)
-            : mGameStat(gameStat), mPlayerStats(playerStats), mHandCards(handCards)
+                             std::vector<PlayerStat> &playerStats, std::unique_ptr<HandCards> &handCards, std::unique_ptr<Composes> &composes)
+            : mGameStat(gameStat), mPlayerStats(playerStats), mHandCards(handCards), mComposes(composes)
         {
             // ViewFormatter should be init first
             ViewFormatter::Init();

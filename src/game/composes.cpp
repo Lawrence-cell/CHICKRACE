@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 01:45:21
+ * @LastEditTime: 2022-06-16 12:26:39
  * @FilePath: \UNO\src\game\composes.cpp
  * @Description:
  *
@@ -30,6 +30,7 @@ namespace UNO
             if (mCompose.size() == 3)
             {
                 SortandPut();
+                SetRank();
                 CalculateTotalPoint();
             }
         }
@@ -38,28 +39,37 @@ namespace UNO
         {
         }
 
-        void Compose::print()
+        Compose::Compose(const std::vector<Card> &cards) : mCompose(cards)
+        {
+            SortandPut();
+            SetRank();
+            CalculateTotalPoint();
+        }
+
+        Composes::Composes()
         {
             for (int i = 0; i < 3; i++)
             {
-                std::cout << mCompose[i].ToString() << std::endl;
+                mComposes.emplace_back(new Compose());
+            }
+        }
+
+        void Compose::print()
+        {
+            if (mCompose.size() != 0)
+            {
+                for (int i = 0; i < mCompose.size(); i++)
+                {
+                    std::cout << mCompose[i].ToString() << std::endl;
+                }
+            }
+            else
+            {
             }
         }
 
         void Compose::SortandPut()
         {
-            // std::vector<Card> &a = mCompose;
-            // int len = a.size();
-            // for (int i = 0; i < len - 1; i++) //需要循环次数
-            // {
-            //     for (int j = 0; j < len - 1 - i; j++) //每次需要比较个数
-            //     {
-            //         if (mMap[a[j].mText] > mMap[a[j + 1].mText])
-            //         {
-            //             std::swap(a[j], a[j + 1]); //不满足偏序，交换
-            //         }
-            //     }
-            // }
 
             std::vector<int> cardValue;
             for (int i = 0; i < 3; i++)
@@ -74,50 +84,79 @@ namespace UNO
             int midIndex = 3 - maxIndex - minIndex;
 
             ReArrange<Card>(mCompose, maxIndex, midIndex, minIndex);
-
-            // std::swap(mCompose[maxIndex], mCompose[2]);
         }
 
-        void Compose::SetRank(int r1, int r2, int r3)
+        void Compose::SetRank()
         {
+            std::vector<CardColor> colorList;
+            std::vector<CardText> textList;
+            std::vector<int> valueList;
+            std::map<int, int> composeMap;
 
-            mRank[0] = r1;
-            mRank[1] = r2;
-            mRank[2] = r3;
-            // std::vector<CardColor> colorList;
-            // std::vector<CardText> textList;
+            std::map<CardColor, int> mColorRankMap = {
+                {CardColor::BLACK, 4}, {CardColor::RED, 3}, {CardColor::FLOWER, 2}, {CardColor::SQUARE, 1}};
+            for (auto it = mCompose.begin(); it != mCompose.end(); it++)
+            {
+                colorList.emplace_back(it->mColor);
+                textList.emplace_back(it->mText);
+                valueList.emplace_back(mMap[it->mText]);
+                composeMap[mMap[it->mText]]++;
+            }
 
-            // std::map<CardColor, int> mColorRankMap = {
-            //     {CardColor::BLACK, 4}, {CardColor::RED, 3}, {CardColor::FLOWER, 2}, {CardColor::SQUARE, 1}};
-            // for (auto it = mCompose.begin(); it != mCompose.end(); it++)
-            // {
-            //     colorList.emplace_back(it->mColor);
-            //     textList.emplace_back(it->mText);
-            // }
-
-            // if (colorList[0] == colorList[1] && colorList[1] == colorList[2])
-            // {
-            //     if (textList[0] == textList[1] && textList[1] == textList[2])
-            //     {
-            //         mRank[0] = 6;
-            //         mRank[1] = mMap[textList[1]];
-            //         mRank[2] = mColorRankMap[colorList[1]];
-            //     }
-            //     else if (/* condition */)
-            //     {
-            //         /* code */
-            //     }
-            //     else
-            //     {
-            //         mRank[0] = 4;
-            //         mRank[1] = mMap[textList[0]];
-            //         mRank[2] = mColorRankMap[colorList[0]];
-            //     }
-            // }
-            // else if (/* condition */)
-            // {
-            //     /* code */
-            // }
+            if (colorList[0] == colorList[1] && colorList[1] == colorList[2])
+            {
+                if (textList[0] == textList[1] && textList[1] == textList[2]) //豹子
+                {
+                    mRank[0] = 6;
+                    mRank[1] = mMap[textList[1]];
+                    mRank[2] = mColorRankMap[colorList[1]];
+                }
+                else if (valueList[1] == valueList[0] - 1 && valueList[1] == valueList[2] + 1) //同花顺
+                {
+                    mRank[0] = 5;
+                    mRank[1] = mMap[textList[0]];
+                    mRank[2] = mColorRankMap[colorList[0]];
+                }
+                else //青子
+                {
+                    mRank[0] = 4;
+                    mRank[1] = mMap[textList[0]];
+                    mRank[2] = mColorRankMap[colorList[0]];
+                }
+            }
+            else if (valueList[1] == valueList[0] - 1 && valueList[1] == valueList[2] + 1) //顺子
+            {
+                mRank[0] = 3;
+                mRank[1] = mMap[textList[0]];
+                mRank[2] = mColorRankMap[colorList[0]];
+            }
+            else if (composeMap.size() == 2) //对子
+            {
+                mRank[0] = 2;
+                for (std::map<int, int>::iterator it = composeMap.begin(); it != composeMap.end(); it++)
+                {
+                    if (it->second == 2)
+                        mRank[1] = it->first;
+                }
+                if (valueList[0] == valueList[1])
+                {
+                    mRank[2] = std::max(mColorRankMap[colorList[0]], mColorRankMap[colorList[1]]);
+                }
+                else if (valueList[0] == valueList[2])
+                {
+                    mRank[2] = std::max(mColorRankMap[colorList[0]], mColorRankMap[colorList[2]]);
+                }
+                else
+                {
+                    mRank[2] = std::max(mColorRankMap[colorList[1]], mColorRankMap[colorList[2]]);
+                }
+            }
+            else
+            {
+                mRank[0] = 1;
+                mRank[1] = mMap[textList[0]];
+                mRank[2] = mColorRankMap[colorList[0]];
+            }
         }
 
         void Composes::Sort()

@@ -7,6 +7,7 @@
 #include "../game/stat.h"
 #include "view_formatter.h"
 
+
 namespace UNO
 {
     namespace UI

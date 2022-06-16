@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-14 00:38:54
+ * @LastEditTime: 2022-06-16 12:51:40
  * @FilePath: \UNO\src\ui\view_formatter.h
  * @Description:
  *

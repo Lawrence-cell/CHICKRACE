@@ -2,13 +2,13 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 01:39:47
+ * @LastEditTime: 2022-06-16 13:04:55
  * @FilePath: \UNO\src\game\composes.h
  * @Description:
  *
  * Copyright (c) 2022 by lawrence-cell 850140027@qq.com, All Rights Reserved.
  */
-#pragma
+#pragma once
 
 #include "cards.h"
 namespace UNO
@@ -20,7 +20,7 @@ namespace UNO
         protected:
         public:
             Compose();
-            Compose(const std::vector<Card> &cards) : mCompose(cards){};
+            Compose(const std::vector<Card> &cards);
 
             std::vector<Card> GetCompose()
             {
@@ -59,7 +59,7 @@ namespace UNO
              */
             void CalculateTotalPoint();
 
-            void SetRank(int r1, int r2, int r3);
+            void SetRank();
 
             std::array<int, 3> GetRank() { return mRank; };
 

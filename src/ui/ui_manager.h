@@ -22,7 +22,8 @@ namespace UNO
         public:
             UIManager(std::unique_ptr<GameStat> &gameStat,
                       std::vector<PlayerStat> &playerStats,
-                      std::unique_ptr<HandCards> &handCards);
+                      std::unique_ptr<HandCards> &handCards,
+                      std::unique_ptr<Composes> &composes);
 
             // ~UIManager() { mTimerThread->join(); }
 
@@ -113,6 +114,8 @@ namespace UNO
             std::unique_ptr<GameStat> &mGameStat;
             std::vector<PlayerStat> &mPlayerStats;
             std::unique_ptr<HandCards> &mHandCards;
+            std::unique_ptr<Composes> &mComposes;
+
             int mCursorIndex{0};
             int mCursorIndexinCompose{0};
             int mTimeLeft; // in milliseconds

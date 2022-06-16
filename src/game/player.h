@@ -95,6 +95,7 @@ namespace UNO
 
             std::unique_ptr<UIManager> mUIManager;
             std::unique_ptr<HandCards> mHandCards;
+            std::unique_ptr<Composes> mComposes;
 
             // state of game board
             std::unique_ptr<GameStat> mGameStat;

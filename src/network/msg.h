@@ -1,6 +1,17 @@
+/*
+ * @Author: lawrence-cell 850140027@qq.com
+ * @Generate Date: Do not edit
+ * @LastEditors: lawrence-cell 850140027@qq.com
+ * @LastEditTime: 2022-06-16 13:06:33
+ * @FilePath: \UNO\src\network\msg.h
+ * @Description:
+ *
+ * Copyright (c) 2022 by lawrence-cell 850140027@qq.com, All Rights Reserved.
+ */
 #pragma once
 
-#include "../game/cards.h"
+// #include "../game/cards.h"
+#include "../game/composes.h"
 
 namespace UNO
 {

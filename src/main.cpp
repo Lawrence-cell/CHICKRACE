@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 01:47:07
+ * @LastEditTime: 2022-06-16 12:23:35
  * @FilePath: \UNO\src\main.cpp
  * @Description:
  *
@@ -59,44 +59,47 @@ int main(int argc, char **argv)
         // auto mUIManager = std::make_unique<UNO::UI::UIManager>(mGameStat, mPlayerStats, mHandCards);
         // mUIManager->test();
 
-        // auto mCompose = new Game::Compose();
+        auto mCompose = new Game::Compose();
         auto card1 = new Game::Card(Game::CardColor::RED, Game::CardText::FOUR);
         auto card2 = new Game::Card(Game::CardColor::RED, Game::CardText::ACE);
         auto card3 = new Game::Card(Game::CardColor::RED, Game::CardText::JOKER);
-        auto compose1 = creatCompose(*card1, *card2, *card3);
+        mCompose->AddCard(*card1);
+        mCompose->AddCard(*card2);
+        mCompose->AddCard(*card3);
+
+        mCompose->print();
+        mCompose->SortandPut();
+        mCompose->print();
+
         // compose1->print();
         // compose1->SortandPut();
         // compose1->print();
 
-        auto card4 = new Game::Card(Game::CardColor::SQUARE, Game::CardText::FOUR);
-        auto card5 = new Game::Card(Game::CardColor::SQUARE, Game::CardText::ACE);
-        auto card6 = new Game::Card(Game::CardColor::SQUARE, Game::CardText::JOKER);
-        auto compose2 = creatCompose(*card4, *card5, *card6);
+        // auto card4 = new Game::Card(Game::CardColor::SQUARE, Game::CardText::FOUR);
+        // auto card5 = new Game::Card(Game::CardColor::SQUARE, Game::CardText::ACE);
+        // auto card6 = new Game::Card(Game::CardColor::SQUARE, Game::CardText::JOKER);
+        // auto compose2 = creatCompose(*card4, *card5, *card6);
 
-        auto card7 = new Game::Card(Game::CardColor::BLACK, Game::CardText::FOUR);
-        auto card8 = new Game::Card(Game::CardColor::BLACK, Game::CardText::ACE);
-        auto card9 = new Game::Card(Game::CardColor::BLACK, Game::CardText::JOKER);
-        auto compose3 = creatCompose(*card7, *card8, *card9);
+        // auto card7 = new Game::Card(Game::CardColor::BLACK, Game::CardText::FOUR);
+        // auto card8 = new Game::Card(Game::CardColor::BLACK, Game::CardText::ACE);
+        // auto card9 = new Game::Card(Game::CardColor::BLACK, Game::CardText::JOKER);
+        // auto compose3 = creatCompose(*card7, *card8, *card9);
 
-        compose1->SetRank(6, 2, 1);
-        compose2->SetRank(5, 2, 1);
-        compose3->SetRank(5, 2, 4);
+        // std::vector<Game::Compose *> list = {compose1, compose2, compose3};
 
-        std::vector<Game::Compose *> list = {compose1, compose2, compose3};
+        // auto combination = new Game::Composes(list);
 
-        auto combination = new Game::Composes(list);
+        // compose1->CalculateTotalPoint();
+        // compose2->CalculateTotalPoint();
+        // compose3->CalculateTotalPoint();
 
-        compose1->CalculateTotalPoint();
-        compose2->CalculateTotalPoint();
-        compose3->CalculateTotalPoint();
-
-        combination->Print();
-        combination->Sort();
-        compose1->SortandPut();
-        compose2->SortandPut();
-        compose3->SortandPut();
-        std::cout << "!!!!!!!!!!!!" << std::endl;
-        combination->Print();
+        // combination->Print();
+        // combination->Sort();
+        // compose1->SortandPut();
+        // compose2->SortandPut();
+        // compose3->SortandPut();
+        // std::cout << "!!!!!!!!!!!!" << std::endl;
+        // combination->Print();
     }
 
     if (configInfo->mIsServer)

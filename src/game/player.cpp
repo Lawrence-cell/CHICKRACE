@@ -42,7 +42,7 @@ namespace UNO
             // don't forget to update common config
             Common::Common::mPlayerNum = joinRsp->mPlayerNum;
             // UIManager should be initialized after common config being loaded
-            mUIManager = std::make_unique<UIManager>(mGameStat, mPlayerStats, mHandCards);
+            mUIManager = std::make_unique<UIManager>(mGameStat, mPlayerStats, mHandCards, mComposes);
             mUIManager->RenderWhenInitWaiting(initUsernames, true);
             for (auto i = 0; i < Common::Common::mPlayerNum - initSize; i++)
             {
@@ -60,6 +60,7 @@ namespace UNO
 
             mHandCards.reset(new HandCards(info->mInitHandCards));
             mGameStat.reset(new GameStat(*info));
+            mComposes.reset(new Composes());
             std::for_each(info->mUsernames.begin(), info->mUsernames.end(),
                           [this](const std::string &username)
                           {
