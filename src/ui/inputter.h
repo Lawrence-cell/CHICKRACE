@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-13 23:41:09
+ * @LastEditTime: 2022-06-16 22:39:29
  * @FilePath: \UNO\src\ui\inputter.h
  * @Description:
  *
@@ -32,7 +32,8 @@ namespace UNO
             NUM2,
             NUM3,
             ESC,
-            READY
+            READY,
+            BACKTOCARDS
         };
 
         class Inputter

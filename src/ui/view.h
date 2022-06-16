@@ -7,7 +7,6 @@
 #include "../game/stat.h"
 #include "view_formatter.h"
 
-
 namespace UNO
 {
     namespace UI
@@ -50,6 +49,8 @@ namespace UNO
              */
             void DrawSelfBox_CR(const GameStat &gameStat, const PlayerStat &playerStat,
                                 const HandCards &handcards, int cursorIndex, int single_game_compose_index);
+
+            void DrawComposeArea(const Composes &composes);
 
             void DrawSelfBox(const GameStat &gameStat, const PlayerStat &playerStat,
                              const HandCards &handcards, int cursorIndex);

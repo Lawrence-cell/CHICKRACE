@@ -205,6 +205,16 @@ namespace UNO
             }
         }
 
+        void View::DrawComposeArea(const Composes &composes)
+        {
+            std::vector<std::string> strList = composes.ToStringAllCompose();
+            for (int i = 0; i < 3; i++)
+            {
+                auto [row, col] = ViewFormatter::GetPosOfCardBlanks(i);
+                Copy(row, col, strList[i]);
+            }
+        }
+
         void View::DrawSelfBox_CR(const GameStat &gameStat, const PlayerStat &playerStat,
                                   const HandCards &handcards, int cursorIndex, int single_game_compose_index)
         {
@@ -216,17 +226,11 @@ namespace UNO
             int absoluteIndex = Common::Util::WrapWithPlayerNum(0 + mMyIndex);
             //取值范围： 0 - 2
 
-            std::string FirstComposeConfig = " __       __        __";
-
             DrawBorder_InGameMine(row, col, width, singleBlockHeight);
             DrawHandCards_CR(row + singleBlockHeight, col, width, handcards);
             // 服务器端： GameBoard::StartGame()
             // handcard 是在服务器端随机生成 然后 发送info到客户端 UIManagerd的handcard属性
             //与player的handcard属性相一致
-            AlignCenter(row + 1, col, width, playerStat.GetUsername());
-            AlignCenter(row + 1 + singleBlockHeight * 2, col, width, FirstComposeConfig); //配牌选项 第一道
-            AlignCenter(row + 1 + singleBlockHeight * 3, col, width, FirstComposeConfig); //配牌选项 第二道
-            AlignCenter(row + 1 + singleBlockHeight * 4, col, width, FirstComposeConfig); //配牌选项 第二道
         }
 
         void View::DrawSelfBox(const GameStat &gameStat, const PlayerStat &playerStat,

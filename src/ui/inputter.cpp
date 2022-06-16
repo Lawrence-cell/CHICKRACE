@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-15 17:06:39
+ * @LastEditTime: 2022-06-16 22:39:54
  * @FilePath: \UNO\src\ui\inputter.cpp
  * @Description:
  *
@@ -59,6 +59,8 @@ namespace UNO
                     return InputAction::READY;
                 case '\033':
                     return InputAction::ESC;
+                case '\b':
+                    return InputAction::BACKTOCARDS;
                 }
             }
         }

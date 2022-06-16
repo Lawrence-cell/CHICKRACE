@@ -132,10 +132,12 @@ namespace UNO
                 //不用刷新的不清除
             }
             mView->DrawSelfBox_CR(*mGameStat, mPlayerStats[0], *mHandCards, mCursorIndex, single_game_compose_index);
+            mView->DrawComposeArea(*mComposes);
             for (int i = 1; i < mPlayerStats.size(); i++)
             {
                 mView->DrawOtherBox_CR(i, *mGameStat, mPlayerStats[i]);
             }
+
             RefreshCursur(mCursorIndex, *mHandCards, CursurinCardorComposebool);
             Print_CR(isFirstInSingleGame);
         }
@@ -167,16 +169,35 @@ namespace UNO
             //打印文字提示内容
         }
 
+        void UIManager::HandleReady(bool &readytime)
+        {
+            mComposes->Sort();
+            readytime = true;
+        }
+
         void UIManager::HandleEnter()
 
         {
             // compose类
             Card cardToPlay = mHandCards->At(mCursorIndex);
             mHandCards->Erase(mCursorIndex);
-            std::string cardStr = cardToPlay.ToString();
-            auto [row, col] = ViewFormatter::GetPosOfCardBlacks(mCursorIndexinCompose);
-            mView->Copy(row, col, cardStr);
-            mCursorIndex++;
+
+            auto composes = mComposes->GetComposes();
+            auto it = composes.begin();
+            auto end = composes.end();
+            std::cout << (*it)->GetCompose().size();
+            while (it != end)
+            {
+
+                if ((*it)->GetCompose().size() < 3)
+                {
+                    (*it)->AddCard(cardToPlay);
+                    break;
+                }
+                it++;
+            }
+            //光标有问题
+            // mCursorIndex++;
         }
 
         void UIManager::Print(bool useCls) const
@@ -201,6 +222,7 @@ namespace UNO
         InputAction UIManager::GetAction_CR(int single_game_compose_index)
         {
             bool CursurinCardorCompose = 1;
+            bool readytime = false;
             while (true)
             {
                 Render_CR(single_game_compose_index, CursurinCardorCompose);
@@ -211,7 +233,7 @@ namespace UNO
                 switch (action)
                 {
                 case InputAction::READY:
-                    return InputAction::READY;
+                    HandleReady(readytime);
                     break;
                 case InputAction::CURSOR_MOVE_LEFT:
                 {
@@ -225,11 +247,14 @@ namespace UNO
                 {
 
                     mCursorIndex = Common::Util::Wrap(mCursorIndex + 1, 9);
-
                     break;
 
                 case InputAction::ENTER: // ENTER
                     CursurinCardorCompose = false;
+                    if (readytime)
+                    {
+                        return InputAction::READY;
+                    }
                     HandleEnter();
                     break;
                 default:

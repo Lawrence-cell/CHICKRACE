@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 12:51:40
+ * @LastEditTime: 2022-06-16 16:23:45
  * @FilePath: \UNO\src\ui\view_formatter.h
  * @Description:
  *
@@ -32,7 +32,7 @@ namespace UNO
 
             static PosT GetPosOfPlayerBox(int playerIndex);
 
-            static PosT GetPosOfCardBlacks(int playerIndex);
+            static PosT GetPosOfCardBlanks(int playerIndex);
 
             static PosT GetPosOfPlayerBox_CR(int playerIndex);
 

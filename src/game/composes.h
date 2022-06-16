@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 13:04:55
+ * @LastEditTime: 2022-06-16 16:21:10
  * @FilePath: \UNO\src\game\composes.h
  * @Description:
  *
@@ -53,17 +53,32 @@ namespace UNO
              */
             void print();
 
+            std::string ToStringByCard();
+
             /**
              * according to the cards combination to determine the rank
              * @return {*}
              */
             void CalculateTotalPoint();
 
+            /**
+             * determine the rank arrat according the combination
+             * @return {*}
+             */
             void SetRank();
 
+            /**
+             * return rank array
+             * @return std::array<int, 3>
+             */
             std::array<int, 3> GetRank() { return mRank; };
 
+            /**
+             * return total point
+             * @return {*}
+             */
             int GetTotalPoint() { return totalPoint; }
+
             template <typename T>
             void ReArrange(std::vector<T> &mSquence, int index1, int index2, int index3);
 
@@ -119,6 +134,12 @@ namespace UNO
             }
 
             void Print();
+
+            /**
+             * 在UI处打印
+             * @return {*}
+             */
+            std::vector<std::string> ToStringAllCompose() const;
 
         private:
             std::vector<Compose *> mComposes;

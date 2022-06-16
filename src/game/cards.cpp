@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-15 22:34:44
+ * @LastEditTime: 2022-06-16 17:34:12
  * @FilePath: \UNO\src\game\cards.cpp
  * @Description:
  *
@@ -316,8 +316,8 @@ namespace UNO
 
         int Card::Length() const
         {
-            int length = 0;
-            length += (mColor == CardColor::BLACK ? 0 : 1);
+            int length = 1;
+
             length += (mText == CardText::TEN ? 2 : 1);
             return length;
         }

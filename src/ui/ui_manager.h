@@ -89,6 +89,8 @@ namespace UNO
              */
             void HandleEnter();
 
+            void HandleReady(bool &readytime);
+
             void RefreshCursur(int cursorIndex, const HandCards &handcards, bool CursurinCardorCompose);
 
         private:

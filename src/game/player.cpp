@@ -82,12 +82,9 @@ namespace UNO
                 mUIManager->Render_CR(single_game_compose_index, true);
 
                 bool isConfigureCompleted = false;
-                while (!isConfigureCompleted)
-                {
 
-                    //此次循环里只处理一个输入，循环每执行一次，界面刷新一次
-                    auto action = mUIManager->GetAction_CR(single_game_compose_index);
-                }
+                //此次循环里只处理一个输入，循环每执行一次，界面刷新一次
+                auto action = mUIManager->GetAction_CR(single_game_compose_index);
 
                 single_game_compose_index++;
             }

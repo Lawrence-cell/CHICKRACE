@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 12:26:39
+ * @LastEditTime: 2022-06-16 16:27:40
  * @FilePath: \UNO\src\game\composes.cpp
  * @Description:
  *
@@ -44,6 +44,24 @@ namespace UNO
             SortandPut();
             SetRank();
             CalculateTotalPoint();
+        }
+
+        std::string Compose::ToStringByCard()
+        {
+            std::string str;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (i < mCompose.size())
+                {
+                    str.append("    ").append(mCompose[i].ToString()).append("     ");
+                }
+                else
+                {
+                    str.append("    ").append("__").append("     ");
+                }
+            }
+            return str;
         }
 
         Composes::Composes()
@@ -201,6 +219,17 @@ namespace UNO
             {
                 mComposes[i]->print();
             }
+        }
+
+        std::vector<std::string> Composes::ToStringAllCompose() const
+        {
+            std::vector<std::string> strAllComposes;
+            std::for_each(std::next(mComposes.begin(), 0), std::next(mComposes.begin(), 3),
+                          [&strAllComposes](Compose *compose)
+                          {
+                              strAllComposes.emplace_back(compose->ToStringByCard());
+                          });
+            return strAllComposes;
         }
     } // namespace Game
 

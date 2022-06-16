@@ -77,9 +77,10 @@ namespace UNO
             mPosOfPlayerBox.emplace_back(std::vector<PosT>{
                 PosT{12, 6}, PosT{0, 0}, PosT{0, 32}});
             mPosOfCardBlanks.emplace_back(std::vector<PosT>{
-                PosT{15, 21}, PosT{15, 31}, PosT{15, 41},
-                PosT{17, 21}, PosT{17, 31}, PosT{17, 41},
-                PosT{19, 21}, PosT{19, 31}, PosT{19, 41}});
+                PosT{17, 11},
+                PosT{19, 11},
+                PosT{21, 11},
+            });
             mPosOfLastPlayedCard.emplace_back(PosT{8, 26});
             mBaseScaleOfView.emplace_back(ScaleT{23, 70}); //方块（三个box）的区域大小
             mPosOfUNOText.emplace_back(PosT{8, 30});       // 8,30
@@ -124,7 +125,7 @@ namespace UNO
             return mPosOfPlayerBox[Common::Common::mPlayerNum][player];
         }
 
-        ViewFormatter::PosT ViewFormatter::GetPosOfCardBlacks(int playerIndex)
+        ViewFormatter::PosT ViewFormatter::GetPosOfCardBlanks(int playerIndex)
         {
             return mPosOfCardBlanks[Common::Common::mPlayerNum][playerIndex];
         }
