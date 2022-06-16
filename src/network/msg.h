@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 13:06:33
+ * @LastEditTime: 2022-06-16 23:58:01
  * @FilePath: \UNO\src\network\msg.h
  * @Description:
  *
@@ -27,7 +27,9 @@ namespace UNO
             GAME_START,
             ACTION,
             DRAW_RSP,
-            GAME_END
+            GAME_END,
+            All_READY,
+            All_READY_RSP
         };
 
         struct Msg
@@ -55,6 +57,14 @@ namespace UNO
             int mFirstPlayer;  // the index of the first player to play a card
             // usernames of all players, not including player himself, ' ' as delimiter
             // and the order is from left side of the player to right side
+            char mUsernames[];
+        };
+
+        struct AllPlayersReadyMsg : public Msg
+        {
+            int totalPoints1;
+            int totalPoints2;
+            int totalPoints3;
             char mUsernames[];
         };
 

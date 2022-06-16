@@ -23,6 +23,17 @@ namespace UNO
             return info;
         }
 
+        std::unique_ptr<AllPlayersReadyInfo> Deserialize(const uint8_t *buffer)
+        {
+            const AllPlayersReadyMsg *msg = reinterpret_cast<const AllPlayersReadyMsg *>(buffer);
+            std::unique_ptr<AllPlayersReadyInfo> info = std::make_unique<AllPlayersReadyInfo>();
+            info->musername = msg->mUsernames;
+            info->mtotalPoints1 = msg->totalPoints1;
+            info->mtotalPoints2 = msg->totalPoints2;
+            info->mtotalPoints3 = msg->totalPoints3;
+            return info;
+        }
+
         void JoinGameRspInfo::Serialize(uint8_t *buffer) const
         {
             JoinGameRspMsg *msg = reinterpret_cast<JoinGameRspMsg *>(buffer);
@@ -73,6 +84,18 @@ namespace UNO
             msg->mFlippedCard = mFlippedCard;
             msg->mFirstPlayer = mFirstPlayer;
             std::strcpy(msg->mUsernames, usernames.c_str());
+        }
+
+        void AllPlayersReadyInfo::Serialize(uint8_t *buffer) const
+        {
+            AllPlayersReadyMsg *msg = reinterpret_cast<AllPlayersReadyMsg *>(buffer);
+            msg->mType = MsgType::All_READY;
+
+            msg->mLen = 3 * sizeof(int) + sizeof(musername);
+            std::strcpy(msg->mUsernames, musername.c_str());
+            msg->totalPoints1 = mtotalPoints1;
+            msg->totalPoints2 = mtotalPoints2;
+            msg->totalPoints3 = mtotalPoints3;
         }
 
         std::unique_ptr<GameStartInfo> GameStartInfo::Deserialize(const uint8_t *buffer)

@@ -105,13 +105,42 @@ namespace UNO
             mGameStat.reset(new GameStat(firstPlayer, flippedCard));
             GameLoop();
         }
+        // p1[a1,a2,a3] 根据 a1 a2 a3 的大小 输出 a1 排第几 a2排排第几 a3排第几
+
+        // p1,p2,p3 都是 长度 为三  的int型vector
+        //这三个数组是对齐的 索引为0的值是第一个玩家牌的总分 索引为1的值是第一个玩家牌的总分 索引为2的值是第一个玩家牌的总分
+        // p1 = [u1,u2,u3] 计算出每一个玩家第一轮应该付的钱pay1(p1里值最大的玩家不用付钱， p1里值第二大的付10块 最小的付20)
+        // p2 = [a1,a2,a3] 计算出每一个玩家第一轮应该付的钱pay2
+        // p3 = [b1,b2,b3] 计算出每一个玩家第一轮应该付的钱pay3
+        // 例如 p1 [2,1 ,3] 因为 第三个玩家值最大 所以pay= 0 第1个玩家次之 pay = 10 第二个玩家最小 pay = 20
+        //那么得到的pay数组[]
+        void GameBoard::CalculatePay(std::vector<int> &p1, std::vector<int> &p2, std::vector<int> &p3, std::vector<int> &payment)
+        {
+        }
 
         void GameBoard::GameLoop()
         {
+
             while (!mGameStat->DoesGameEnd())
             {
                 try
                 {
+                    // std::vector<std::string> names;
+                    // std::vector<int> p1List;
+                    // std::vector<int> p2List;
+                    // std::vector<int> p3List;
+                    // std::vector<int> payment;
+
+                    // for (int i = 0; i < 3; i++)
+                    // {
+                    //     auto info = Common::Util::Receive<AllPlayersReadyMsg>(mServer, i);
+                    //     std::string str(info->mUsernames);
+                    //     names.emplace_back(str);
+                    //     p1List.emplace_back(info->totalPoints1);
+                    //     p2List.emplace_back(info->totalPoints2);
+                    //     p3List.emplace_back(info->totalPoints3);
+                    // }
+
                     auto actionInfo = Common::Util::Receive<ActionInfo>(mServer, mGameStat->GetCurrentPlayer());
                     switch (actionInfo->mActionType)
                     {

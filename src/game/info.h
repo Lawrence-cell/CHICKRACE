@@ -73,6 +73,27 @@ namespace UNO
             friend std::ostream &operator<<(std::ostream &os, const GameStartInfo &info);
         };
 
+        struct AllPlayersReadyInfo : public Info
+        {
+            int mtotalPoints1;
+            int mtotalPoints2;
+            int mtotalPoints3;
+
+            std::string musername;
+
+            AllPlayersReadyInfo() {}
+            AllPlayersReadyInfo(int totalPoints1, int totalPoints2, int totalPoints3, std::string username)
+                : mtotalPoints1(totalPoints1), mtotalPoints2(totalPoints2), mtotalPoints3(totalPoints3), musername(username)
+            {
+            }
+
+            void Serialize(uint8_t *buffer) const;
+            static std::unique_ptr<AllPlayersReadyInfo> Deserialize(const uint8_t *buffer);
+
+            bool operator==(const AllPlayersReadyInfo &info) const;
+            friend std::ostream &operator<<(std::ostream &os, const AllPlayersReadyInfo &info);
+        };
+
         struct ActionInfo : public Info
         {
             ActionType mActionType;

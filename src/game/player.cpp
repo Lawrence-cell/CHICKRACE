@@ -85,6 +85,15 @@ namespace UNO
 
                 //此次循环里只处理一个输入，循环每执行一次，界面刷新一次
                 auto action = mUIManager->GetAction_CR(single_game_compose_index);
+                if (action == InputAction::READY)
+                {
+                    auto composes = mComposes->GetComposes();
+                    int p1 = composes[0]->GetTotalPoint();
+                    int p2 = composes[1]->GetTotalPoint();
+                    int p3 = composes[2]->GetTotalPoint();
+
+                    Common::Util::Deliver<AllPlayersReadyInfo>(mClient, p1, p2, p3, mUsername.c_str());
+                }
 
                 single_game_compose_index++;
             }
