@@ -22,15 +22,24 @@ namespace UNO
             Clear(true);
         }
 
-        void View::ClearForRefresh()
+        void View::ClearForRefresh(int rowToClear)
         {
             std::vector<int> rowNumToClear;
             auto [row, col] = ViewFormatter::GetPosOfPlayerBox(0);
             int singleBlockHeight = ViewFormatter::GetSingleHeightofBox();
-            for (int i = 0; i < 4; i++)
+            if (rowToClear == -1)
             {
-                rowNumToClear.emplace_back(row + 1 + singleBlockHeight + singleBlockHeight * i);
+                for (int i = 0; i < 4; i++)
+                {
+                    rowNumToClear.emplace_back(row + 1 + singleBlockHeight + singleBlockHeight * i);
+                }
             }
+            else
+            {
+                rowNumToClear.emplace_back(rowToClear);
+                rowNumToClear.emplace_back(rowToClear + 1);
+            }
+
             for (int row = 0; row < mView.size(); row++)
             {
                 if (std::find(rowNumToClear.begin(), rowNumToClear.end(), row) != rowNumToClear.end())
@@ -95,6 +104,28 @@ namespace UNO
             // 20,70
             // std::cout << "runing" << std::endl;
             AlignCenter(centerRow * 1 / 3, 0, centerCol - 16, phaseText);
+        }
+
+        void View::DrawNameandBalance(std::vector<std::string> names, std::array<int, 3> payment)
+        {
+            auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
+            // 20,70
+            // std::cout << "runing" << std::endl;
+            std::string line1;
+            for (int i = 0; i < 3; i++)
+            {
+                line1.append(" ");
+                line1.append(names[i]);
+            }
+            std::string line2;
+            for (int i = 0; i < 3; i++)
+            {
+                line2.append(" ");
+                line2.append(std::to_string(payment[i]));
+            }
+
+            AlignCenter(centerRow * 1 / 3, 0, centerCol - 16, line1);
+            AlignCenter(centerRow * 1 / 3 + 1, 0, centerCol - 16, line2);
         }
 
         void View::DrawWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime)
@@ -216,7 +247,7 @@ namespace UNO
         }
 
         void View::DrawSelfBox_CR(const GameStat &gameStat, const PlayerStat &playerStat,
-                                  const HandCards &handcards, int cursorIndex, int single_game_compose_index)
+                                  const HandCards &handcards, int cursorIndex)
         {
             // playerIndex代表的是哪个方块
             auto [row, col] = ViewFormatter::GetPosOfPlayerBox(0);

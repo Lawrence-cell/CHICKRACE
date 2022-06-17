@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 23:58:01
+ * @LastEditTime: 2022-06-17 15:37:35
  * @FilePath: \UNO\src\network\msg.h
  * @Description:
  *
@@ -65,6 +65,12 @@ namespace UNO
             int totalPoints1;
             int totalPoints2;
             int totalPoints3;
+            char mUsernames[];
+        };
+
+        struct PayMsg : public Msg
+        {
+            int mPay[3];
             char mUsernames[];
         };
 

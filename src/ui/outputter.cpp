@@ -77,7 +77,7 @@ namespace UNO
         }
 
         void Outputter::PrintHintText(bool isSpecifyingNextColor, bool lastCardCanBePlayed,
-                                      bool hasChanceToPlayAfterDraw) const
+                                      bool hasChanceToPlayAfterDraw, bool readyOrNot) const
         {
             if (isSpecifyingNextColor)
             {
@@ -98,9 +98,15 @@ namespace UNO
             }
             else if (!hasChanceToPlayAfterDraw)
             {
-                std::cout << "Now it's your turn." << std::endl;
-                std::cout << "Press , and . to move the cursor and Enter to play the card." << std::endl;
-                std::cout << "Or press Space to draw cards / skip." << std::endl;
+                if (readyOrNot)
+                {
+                    std::cout << "Are you ready to complete configuring? press [ENTER] to confirm" << std::endl;
+                }
+                else
+                {
+                    std::cout << "Now it's your turn." << std::endl;
+                    std::cout << "Press , and . to move the cursor and Enter to choose the card." << std::endl;
+                }
             }
             else
             {

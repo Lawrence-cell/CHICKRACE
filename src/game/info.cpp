@@ -23,7 +23,7 @@ namespace UNO
             return info;
         }
 
-        std::unique_ptr<AllPlayersReadyInfo> Deserialize(const uint8_t *buffer)
+        std::unique_ptr<AllPlayersReadyInfo> AllPlayersReadyInfo::Deserialize(const uint8_t *buffer)
         {
             const AllPlayersReadyMsg *msg = reinterpret_cast<const AllPlayersReadyMsg *>(buffer);
             std::unique_ptr<AllPlayersReadyInfo> info = std::make_unique<AllPlayersReadyInfo>();
@@ -64,6 +64,46 @@ namespace UNO
                 usernames.erase(0, pos + 1);
             }
             return info;
+        }
+
+        std::unique_ptr<PayInfo> PayInfo::Deserialize(const uint8_t *buffer)
+        {
+            const PayMsg *msg = reinterpret_cast<const PayMsg *>(buffer);
+            std::unique_ptr<PayInfo> info = std::make_unique<PayInfo>();
+
+            std::string usernames(msg->mUsernames);
+            while (!usernames.empty())
+            {
+                int pos = usernames.find(' ');
+                info->mUsernames.emplace_back(usernames, 0, pos);
+                usernames.erase(0, pos + 1);
+            }
+            const int *ptr;
+            ptr = msg->mPay;
+            std::vector<int> temp;
+            // const int n = sizeof(msg->mPay) / sizeof(int);
+
+            std::copy(std::begin(msg->mPay), std::end(msg->mPay), info->mPay.begin());
+
+            return info;
+        }
+
+        void PayInfo::Serialize(uint8_t *buffer) const
+        {
+            PayMsg *msg = reinterpret_cast<PayMsg *>(buffer);
+            std::string usernames{};
+            std::for_each(mUsernames.begin(), mUsernames.end(),
+                          [&usernames](const std::string &username)
+                          {
+                              // ' ' as delimiter of usernames
+                              usernames.append(username).push_back(' ');
+                          });
+            msg->mLen = sizeof(int) * 3 + usernames.size();
+            std::strcpy(msg->mUsernames, usernames.c_str());
+            for (int i = 0; i < 3; i++)
+            {
+                msg->mPay[i] = mPay[i];
+            }
         }
 
         void GameStartInfo::Serialize(uint8_t *buffer) const

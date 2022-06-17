@@ -52,6 +52,27 @@ namespace UNO
             friend std::ostream &operator<<(std::ostream &os, const JoinGameRspInfo &info);
         };
 
+        struct PayInfo : public Info
+        {
+
+            std::vector<std::string> mUsernames;
+            std::array<int, 3> mPay;
+
+            PayInfo()
+            {
+            }
+            PayInfo(std::vector<std::string> Usernames, std::array<int, 3> Pay)
+                : mPay(Pay), mUsernames(Usernames)
+            {
+            }
+
+            void Serialize(uint8_t *buffer) const;
+            static std::unique_ptr<PayInfo> Deserialize(const uint8_t *buffer);
+
+            bool operator==(const PayInfo &info) const;
+            friend std::ostream &operator<<(std::ostream &os, const PayInfo &info);
+        };
+
         struct GameStartInfo : public Info
         {
             std::array<Card, 9> mInitHandCards;

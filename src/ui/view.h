@@ -25,7 +25,7 @@ namespace UNO
              */
             void Clear(bool para1, int para2 = 0);
 
-            void ClearForRefresh();
+            void ClearForRefresh(int rowToClear = -1);
 
             /**
              * Draw the whole view when waiting for other players to join.
@@ -48,7 +48,7 @@ namespace UNO
              * Draw the box of player himself.
              */
             void DrawSelfBox_CR(const GameStat &gameStat, const PlayerStat &playerStat,
-                                const HandCards &handcards, int cursorIndex, int single_game_compose_index);
+                                const HandCards &handcards, int cursorIndex);
 
             void DrawComposeArea(const Composes &composes);
 
@@ -59,6 +59,8 @@ namespace UNO
              * Draw the last played card near the center of game board.
              */
             void DrawLastPlayedCard(Card lastPlayedCard);
+
+            void DrawNameandBalance(std::vector<std::string> names, std::array<int, 3> payment);
 
             /**
              * Draw the time indicator of \param currentPlayer, which has passed \param timeElapsed seconds.

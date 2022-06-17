@@ -82,6 +82,14 @@ namespace UNO
                 mUIManager->Render_CR(single_game_compose_index, true);
 
                 bool isConfigureCompleted = false;
+                // test
+                // Common::Util::Deliver<AllPlayersReadyInfo>(mClient, 1, 2, 2, mUsername.c_str());
+                // auto info = Common::Util::Receive<PayInfo>(mClient);
+                // for (int i = 0; i < 3; i++)
+                // {
+                //     std::cout << info->mUsernames[i] << info->mPay[i] << std::endl;
+                // }
+                // // test
 
                 //此次循环里只处理一个输入，循环每执行一次，界面刷新一次
                 auto action = mUIManager->GetAction_CR(single_game_compose_index);
@@ -93,6 +101,11 @@ namespace UNO
                     int p3 = composes[2]->GetTotalPoint();
 
                     Common::Util::Deliver<AllPlayersReadyInfo>(mClient, p1, p2, p3, mUsername.c_str());
+
+                    auto info = Common::Util::Receive<PayInfo>(mClient);
+
+                    mUIManager->RenderAfterReady(info->mUsernames, info->mPay);
+                    Sleep(1000000);
                 }
 
                 single_game_compose_index++;

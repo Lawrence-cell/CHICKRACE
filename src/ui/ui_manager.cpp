@@ -116,13 +116,23 @@ namespace UNO
                 }
             }
         }
-        void UIManager::Render_CR(int single_game_compose_index, bool CursurinCardorComposebool, bool isFirstInSingleGame)
+
+        void UIManager::RenderAfterReady(std::vector<std::string> names, std::array<int, 3> payment)
+        {
+
+            auto [centerRow, centerCol] = ViewFormatter::GetBaseScaleOfView();
+            mView->ClearForRefresh(centerRow * 1 / 3);
+            mView->DrawNameandBalance(names, payment);
+        }
+
+        void UIManager::Render_CR(bool readyOrNot, bool CursurinCardorComposebool, bool isFirstInSingleGame)
         {
             std::lock_guard<std::mutex> lock(mMutex);
             // before render, mView should be cleared first
             if (isFirstInSingleGame)
             {
                 mView->Clear(true);
+
                 mView->DrawPhaseText("CONFIGURING PHASE");
             }
             else
@@ -131,7 +141,7 @@ namespace UNO
                 //部分清除
                 //不用刷新的不清除
             }
-            mView->DrawSelfBox_CR(*mGameStat, mPlayerStats[0], *mHandCards, mCursorIndex, single_game_compose_index);
+            mView->DrawSelfBox_CR(*mGameStat, mPlayerStats[0], *mHandCards, mCursorIndex);
             mView->DrawComposeArea(*mComposes);
             for (int i = 1; i < mPlayerStats.size(); i++)
             {
@@ -139,7 +149,7 @@ namespace UNO
             }
 
             RefreshCursur(mCursorIndex, *mHandCards, CursurinCardorComposebool);
-            Print_CR(isFirstInSingleGame);
+            Print_CR(isFirstInSingleGame, readyOrNot);
         }
 
         void UIManager::NextTurn()
@@ -155,7 +165,7 @@ namespace UNO
             mView->Clear(true);
         }
 
-        void UIManager::Print_CR(bool useCls) const
+        void UIManager::Print_CR(bool useCls, bool readyOrNot) const
         {
             // get value only once, for atomicity
 
@@ -165,7 +175,7 @@ namespace UNO
             //打印boxes
 
             mOutputter->PrintHintText(mIsSpecifyingNextColor, true,
-                                      true);
+                                      true, readyOrNot);
             //打印文字提示内容
         }
 
@@ -219,13 +229,13 @@ namespace UNO
             }
         }
 
-        InputAction UIManager::GetAction_CR(int single_game_compose_index)
+        InputAction UIManager::GetAction_CR(int single_game_compose_index, bool readyOrNot)
         {
             bool CursurinCardorCompose = 1;
             bool readytime = false;
             while (true)
             {
-                Render_CR(single_game_compose_index, CursurinCardorCompose);
+                Render_CR(readytime, single_game_compose_index, CursurinCardorCompose);
                 InputAction action;
                 ResetTimeLeft();
                 ExecuteWithTimePassing([this, &action]
@@ -237,9 +247,6 @@ namespace UNO
                     break;
                 case InputAction::CURSOR_MOVE_LEFT:
                 {
-
-                    // mCursorIndex = Common::Util::Wrap(mCursorIndex - 1,
-                    //                                   mPlayerStats[0].GetRemainingHandCardsNum());
                     mCursorIndex = Common::Util::Wrap(mCursorIndex - 1, 9);
                     break;
                 }

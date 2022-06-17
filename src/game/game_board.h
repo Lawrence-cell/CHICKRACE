@@ -71,7 +71,7 @@ namespace UNO
              * Broadcast info to players other than the current one.
              */
 
-            void CalculatePay(std::vector<int> &p1, std::vector<int> &p2, std::vector<int> &p3, std::vector<int> &payment);
+            void CalculatePay(std::vector<int> &p1, std::vector<int> &p2, std::vector<int> &p3, std::array<int, 3> &payment);
 
             template <typename ActionInfoT>
             void Broadcast(ActionInfoT &info)

@@ -2,7 +2,7 @@
  * @Author: lawrence-cell 850140027@qq.com
  * @Generate Date: Do not edit
  * @LastEditors: lawrence-cell 850140027@qq.com
- * @LastEditTime: 2022-06-16 22:39:54
+ * @LastEditTime: 2022-06-17 17:25:03
  * @FilePath: \UNO\src\ui\inputter.cpp
  * @Description:
  *
@@ -55,6 +55,7 @@ namespace UNO
                 case '3':
                     return InputAction::NUM3;
                 case 'r':
+                    return InputAction::READY;
                 case 'R':
                     return InputAction::READY;
                 case '\033':

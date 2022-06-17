@@ -48,11 +48,16 @@ namespace UNO
             void RenderWhenInitWaiting(const std::vector<std::string> &usernames, bool isFirstTime);
 
             /**
+             * Render view when everybody is ready.
+             */
+            void RenderAfterReady(std::vector<std::string> names, std::array<int, 3> payment);
+
+            /**
              * Render view in the main game loop.
              */
             void Render(bool useCls = true);
 
-            void Render_CR(int single_game_compose_index, bool CursurinCardorComposebool, bool isFisrtInSingleGame = false);
+            void Render_CR(bool readyOrNot, bool CursurinCardorComposebool, bool isFisrtInSingleGame = false);
 
             void test();
 
@@ -62,7 +67,7 @@ namespace UNO
             std::pair<InputAction, int> GetAction(bool lastCardCanBePlayed,
                                                   bool hasChanceToPlayAfterDraw);
 
-            InputAction GetAction_CR(int single_game_compose_index);
+            InputAction GetAction_CR(int single_game_compose_index, bool readyOrNot = false);
             /**
              * Get the specified next color when a 'W' or '+4' is played.
              */
@@ -98,7 +103,7 @@ namespace UNO
 
             void Print(bool useCls = true) const;
 
-            void Print_CR(bool useCls = true) const;
+            void Print_CR(bool useCls, bool readyOrNot = false) const;
 
             void ResetCursor() { MoveCursorTo(0); }
 
